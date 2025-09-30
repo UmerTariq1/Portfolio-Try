@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 48">
+  <defs>
+    <linearGradient id="startBtn" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7ee080" />
+      <stop offset="45%" stop-color="#34a64a" />
+      <stop offset="100%" stop-color="#1f6f30" />
+    </linearGradient>
+    <radialGradient id="startGlow" cx="0.3" cy="0.3" r="0.7">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="startText" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f4fff4" />
+      <stop offset="100%" stop-color="#d4f5d4" />
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="112" height="40" rx="20" fill="url(#startBtn)" stroke="rgba(16,72,30,0.8)" stroke-width="3" />
+  <circle cx="36" cy="24" r="15" fill="#ffffff" fill-opacity="0.2" />
+  <circle cx="36" cy="24" r="14" fill="#ffffff" fill-opacity="0.1" />
+  <circle cx="36" cy="24" r="12.5" fill="#2b7d3b" stroke="#0f4c1f" stroke-width="1.6" />
+  <path d="M30 18l6-2.5v7.5l-6-0.9zM30 25l6 0.9v7.5l-6-2.5zM38 15.2L44 18v6.6l-6-0.9zM38 23.7l6 0.9V31l-6 2.3z" fill="#ffffff" />
+  <circle cx="36" cy="24" r="14" fill="url(#startGlow)" />
+  <text x="62" y="30" font-family="'Segoe UI', 'Verdana', sans-serif" font-size="20" font-weight="600" fill="url(#startText)">
+    Start
+  </text>
+</svg>

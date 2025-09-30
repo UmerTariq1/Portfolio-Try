@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="noteBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef6ff" />
+      <stop offset="55%" stop-color="#d4e6ff" />
+      <stop offset="100%" stop-color="#b5d0f8" />
+    </linearGradient>
+    <linearGradient id="noteHeader" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7ab8ff" />
+      <stop offset="100%" stop-color="#2f7be0" />
+    </linearGradient>
+    <linearGradient id="noteShadow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.1" />
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="52" height="52" rx="12" fill="url(#noteBg)" stroke="#4774b8" stroke-width="2" />
+  <path d="M10 22c4-3 10-5 22-5s18 2 22 5" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2" stroke-linecap="round" />
+  <rect x="18" y="14" width="28" height="36" rx="6" fill="#ffffff" stroke="#8badde" stroke-width="1.5" />
+  <rect x="20" y="12" width="24" height="10" rx="4" fill="url(#noteHeader)" stroke="#2f6cc4" stroke-width="1.5" />
+  <path d="M22 28h20M22 34h20M22 40h18M22 46h16" stroke="#6f95d3" stroke-width="2.4" stroke-linecap="round" />
+  <g fill="#ffffff" stroke="#2c64a8" stroke-width="1.2">
+    <circle cx="24" cy="17" r="1.6" />
+    <circle cx="32" cy="17" r="1.6" />
+    <circle cx="40" cy="17" r="1.6" />
+  </g>
+  <path d="M18.5 20h27" stroke="url(#noteShadow)" stroke-width="1.4" stroke-linecap="round" />
+</svg>

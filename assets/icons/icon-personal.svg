@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="personalBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f2f9ff" />
+      <stop offset="60%" stop-color="#cbe0ff" />
+      <stop offset="100%" stop-color="#9cc0fa" />
+    </linearGradient>
+    <linearGradient id="personalAccent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4f96ff" />
+      <stop offset="100%" stop-color="#1f5fd6" />
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="52" height="52" rx="12" fill="url(#personalBg)" stroke="#3768b8" stroke-width="2" />
+  <path d="M10 22c4-3 10-5 22-5s18 2 22 5" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" />
+  <circle cx="32" cy="26" r="10" fill="#ffffff" stroke="#3471c6" stroke-width="1.6" />
+  <path d="M32 18a7.5 7.5 0 0 1 7.5 7.5c0 4.2-3.1 7.7-7.5 7.7s-7.5-3.5-7.5-7.7A7.5 7.5 0 0 1 32 18z" fill="#5c90e3" />
+  <path d="M18 46c3-8 10-12 14-12s11 4 14 12" fill="#ffffff" stroke="#1f58aa" stroke-width="1.6" stroke-linecap="round" />
+  <path d="M20 44c5-4 8-6 12-6s7 2 12 6" fill="none" stroke="url(#personalAccent)" stroke-width="2.4" stroke-linecap="round" />
+</svg>

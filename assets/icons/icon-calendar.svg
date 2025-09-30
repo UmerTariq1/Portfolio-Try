@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <defs>
+    <linearGradient id="calBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f9fbff" />
+      <stop offset="100%" stop-color="#d7e4ff" />
+    </linearGradient>
+    <linearGradient id="calHeader" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6c9bff" />
+      <stop offset="100%" stop-color="#285ad6" />
+    </linearGradient>
+  </defs>
+  <rect x="3" y="5" width="42" height="38" rx="8" fill="url(#calBg)" stroke="#3f66b6" stroke-width="1.8" />
+  <rect x="7" y="8" width="34" height="10" rx="4" fill="url(#calHeader)" />
+  <g fill="#fff" stroke="#2757b9" stroke-width="1.2">
+    <circle cx="13" cy="10" r="2.4" />
+    <circle cx="35" cy="10" r="2.4" />
+  </g>
+  <path d="M9 20h30" stroke="#a8bbde" stroke-width="1.4" />
+  <g fill="#5570a5">
+    <rect x="12" y="24" width="6" height="6" rx="1.2" />
+    <rect x="20" y="24" width="6" height="6" rx="1.2" />
+    <rect x="28" y="24" width="6" height="6" rx="1.2" />
+    <rect x="12" y="32" width="6" height="6" rx="1.2" />
+    <rect x="20" y="32" width="6" height="6" rx="1.2" />
+    <rect x="28" y="32" width="6" height="6" rx="1.2" />
+  </g>
+  <rect x="20" y="24" width="6" height="6" rx="1.2" fill="#ff826d" />
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="projectsBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff1ec" />
+      <stop offset="55%" stop-color="#ffd1be" />
+      <stop offset="100%" stop-color="#ffa274" />
+    </linearGradient>
+    <linearGradient id="projectsLink" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffbb72" />
+      <stop offset="100%" stop-color="#e06a2c" />
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="52" height="52" rx="12" fill="url(#projectsBg)" stroke="#ce5f28" stroke-width="2" />
+  <path d="M10 22c4-3 10-5 22-5s18 2 22 5" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" />
+  <g fill="#ffffff" stroke="#cf6e3a" stroke-width="1.6">
+    <circle cx="20" cy="28" r="5" />
+    <circle cx="44" cy="24" r="5" />
+    <circle cx="36" cy="42" r="6" />
+    <circle cx="24" cy="46" r="4.5" />
+  </g>
+  <path d="M24 46l10-4m-14-14 18 12m2-16-6 16" fill="none" stroke="url(#projectsLink)" stroke-width="2.6" stroke-linecap="round" />
+</svg>
