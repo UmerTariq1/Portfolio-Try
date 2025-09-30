@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Umer Butt · Retro Windows Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <div id="login-screen" class="screen screen--active">
+    <div class="login-panel">
+      <img class="login-avatar" src="images/me.jpg" alt="Login avatar" id="login-avatar" />
+      <button class="login-button" id="login-button">Click to log in</button>
+    </div>
+    <p class="login-hint">Retro Windows Desktop · Powered by YAML content</p>
+  </div>
+
+  <div id="welcome-screen" class="screen">
+    <div class="welcome-panel">
+      <div class="welcome-spinner"></div>
+      <p>Welcome</p>
+    </div>
+  </div>
+
+  <div id="desktop" class="hidden">
+    <div class="wallpaper" style="background-image: url('assets/images/wallpaper.svg');"></div>
+
+    <div id="desktop-icons" class="desktop-icons" role="group" aria-label="Desktop icons"></div>
+
+    <div id="context-menu" class="context-menu hidden" role="menu">
+      <button data-action="refresh">Refresh</button>
+      <button data-action="properties">Properties</button>
+      <button data-action="personalize">Personalize</button>
+    </div>
+
+    <div id="windows-layer" class="windows-layer" aria-live="polite"></div>
+
+    <div id="start-menu" class="start-menu hidden" role="dialog" aria-modal="false">
+      <div class="start-menu__left">
+        <h2>Programs</h2>
+        <ul id="start-menu-programs"></ul>
+        <div class="start-menu__extras">
+          <button class="start-extra" data-app="notepad">
+            <img src="assets/icons/icon-notepad.svg" alt="Notepad icon" />
+            <span>Notepad</span>
+          </button>
+          <button class="start-extra" data-app="paint">
+            <img src="assets/icons/icon-paint.svg" alt="Paint icon" />
+            <span>Paint</span>
+          </button>
+          <button class="start-extra" data-app="calculator">
+            <img src="assets/icons/icon-calculator.svg" alt="Calculator icon" />
+            <span>Calculator</span>
+          </button>
+        </div>
+      </div>
+      <div class="start-menu__right">
+        <section>
+          <h3>Contact</h3>
+          <ul id="start-menu-contact"></ul>
+        </section>
+        <section class="start-menu__power">
+          <button id="log-off-button">
+            <img src="assets/icons/icon-power.svg" alt="Power icon" />
+            <span>Log Off</span>
+          </button>
+        </section>
+      </div>
+    </div>
+
+    <div id="calendar-popup" class="calendar-popup hidden" role="dialog" aria-modal="false">
+      <header>
+        <img src="assets/icons/icon-calendar.svg" alt="Calendar icon" />
+        <div>
+          <p class="calendar-date"></p>
+          <p class="calendar-time"></p>
+        </div>
+      </header>
+      <div class="calendar-grid" id="calendar-grid"></div>
+    </div>
+
+    <footer id="taskbar" class="taskbar" role="toolbar" aria-label="Taskbar">
+      <button id="start-button" class="start-button" aria-haspopup="true" aria-expanded="false">
+        <img src="assets/icons/icon-start.svg" alt="Windows Start" />
+      </button>
+      <div id="taskbar-items" class="taskbar-items" role="tablist"></div>
+      <div class="taskbar-tray">
+        <div class="tray-icons">
+          <span class="tray-icon" aria-label="Volume">🔊</span>
+          <span class="tray-icon" aria-label="Battery">🔋</span>
+        </div>
+        <button id="tray-clock" class="tray-clock" aria-haspopup="true" aria-expanded="false">
+          <span class="tray-time">--:--</span>
+          <span class="tray-date">--/--</span>
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <script src="assets/js/app.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,519 @@
+# Resume configuration for the retro Windows portfolio desktop.
+# Update the values in each top-level key to refresh the corresponding window content.
+# Sections map 1:1 with desktop icons and Start menu entries, so adding/removing keys here
+# will automatically add/remove icons and windows when the site loads.
+#
+# Structure overview:
+# personal_info: metadata for the login screen, taskbar tooltip, and desktop icon avatar.
+# contact: links rendered in the Start menu and contact window.
+# summary: array of markdown-supporting bullet paragraphs for the "Summary" window.
+# highlights: short list of skills displayed under personal info.
+# experience/projects/education/publications: arrays of structured objects (see examples below).
+# skills: grouped proficiency lists; each group appears as its own section inside the skills window.
+# photography: toggleable gallery of images with captions.
+# interests: simple list of text items.
+personal_info:
+  name: "Umer Butt"
+  title: "AI Software Engineer"
+  avatar: "images/me.jpg"
+  location: "Germany"
+
+contact:
+  email: "mumertbutt@gmail.com"
+  phone: "+49 1577 3677 910"
+  website: "https://umertariq1.github.io"
+  github: "https://github.com/UmerTariq1"
+  linkedin: "https://www.linkedin.com/in/umertariq1"
+  scholar: "https://scholar.google.com/citations?user=rJY5sboAAAAJ&hl=en"
+  resume: "resources/Resume_Umer_Butt.pdf"
+
+summary:
+  - "As an AI engineer, I'm fascinated by the challenge of making sense of complex data. For over **5 years**, I've specialized in **NLP, Information Retrieval, Search and Recommendation**. My work has centered on creating intelligent, user-friendly solutions powered by **deep learning and LLMs**. I love turning a tricky problem/idea into a streamlined, effective application that just works."
+  - "I seek to leverage deep learning and LLM expertise for impactful AI projects. You can explore some of my recent work, including an LLM-powered platform to enhance client support, in my work experience section."
+  - "When I'm not immersed in the world of AI, you'll find me exploring the outdoors. I'm an avid hiker and photographer, often capturing the landscapes of the beautiful places I visit."
+  - "And when I need to unwind my nerdiness, I do side projects. Check out some of my personal projects."
+  - "I've also had the opportunity to publish some of my work, which still feels a little surreal to be honest. I'm not entirely sure how it happened, but you can check out my publications for a deeper look at the work I've been a part of."
+  - "Wondering if I actually know what I'm doing? My experience and education are here to convince you (or at least try)."
+
+highlights:
+  - "Python"
+  - "NLP"
+  - "Information Retrieval"
+  - "LLMs"
+  - "RAG"
+  - "Elasticsearch"
+  - "PyTorch"
+  - "Docker"
+  - "AWS"
+
+experience:
+  - company: "Sequire Technology GmbH"
+    url: "https://sequire.de/"
+    role: "AI Software Engineer"
+    location: "Germany"
+    start: "Aug 2025"
+    end: "Present"
+    summary: "R&D on LLM security; built RAG applications with local and cloud LLMs."
+    achievements:
+      - "Conducted pen testing for LLM vulnerabilities, harmfulness, and toxicity."
+      - "Developed and implemented a Retrieval-Augmented Generation (RAG) application with local and API LLMs."
+    stack:
+      - "Python"
+      - "LLMs"
+      - "RAG"
+      - "LangChain"
+      - "Docker"
+
+  - company: "IMC AG"
+    url: "https://www.scheer-imc.com/de/"
+    role: "AI Software Developer (Werkstudent)"
+    location: "Saarbrucken, Germany"
+    start: "Jan 2025"
+    end: "Jun 2025"
+    summary: "Led LLM-powered IR platform for client support workflows."
+    achievements:
+      - "Built an LLM-powered IR platform using Python, React, Docker, and Grafana for search and monitoring."
+      - "Developed and deployed an AI-powered solution draft generator and a local LLM-based effort estimation module, which streamlined ticket resolve and provided new clients with informed project projections."
+    stack:
+      - "Python"
+      - "React"
+      - "Docker"
+      - "Grafana"
+
+  - company: "DFKI"
+    url: "https://www.dfki.de/web"
+    role: "AI Research Assistant"
+    location: "Saarbrucken, Germany"
+    start: "Apr 2022"
+    end: "Dec 2024"
+    summary: "Delivered NLP automation and student-assistant RAG systems for enterprises."
+    achievements:
+      - "Built NLP automation processing 1000+ documents for clients including Siemens and Beko."
+      - "Designed an AI-powered student assistant using RAG, LLMs, and OpenAI API."
+      - "Collaborated on scalable model deployment pipelines."
+    stack:
+      - "NLP"
+      - "RAG"
+      - "OpenAI API"
+      - "Python"
+
+  - company: "Love For Data"
+    url: "https://www.lovefordata.com/"
+    role: "AI Engineer"
+    location: "Pakistan"
+    start: "Dec 2020"
+    end: "Sep 2021"
+    summary: "Delivered banking IR and query recommendation systems."
+    achievements:
+      - "Built IR system for 10,000+ regulations with 34% relevance improvement using statistical and transformer models."
+      - "Implemented query recommendation via document clustering and NER, improving accuracy by 45% and precision by 30%."
+      - "Integrated Elasticsearch for indexing and real-time retrieval."
+    stack:
+      - "Elasticsearch"
+      - "Transformers"
+      - "Python"
+      - "NER"
+      - "Clustering"
+
+  - company: "Systems Limited"
+    url: "https://www.systemsltd.com/PK"
+    role: "Software Engineer"
+    location: "Pakistan"
+    start: "Jun 2019"
+    end: "Nov 2020"
+    summary: "Led multiple projects improving performance and recommendations."
+    achievements:
+      - "Supervised a team across customer offer promotion and delivery systems."
+      - "Achieved 28% performance improvement and 7% reduction in false recommendations."
+    stack:
+      - "Java"
+      - "SQL"
+      - "Software Engineering"
+
+projects:
+  - name: "RAG LLM chatbot with external knowledge source"
+    description: "Built a Retrieval-Augmented Generation chatbot using Llama3 and Hugging Face transformers with Streamlit interface"
+    tags:
+      - "Python"
+      - "Llama3"
+      - "Hugging Face"
+      - "Streamlit"
+    links:
+      - label: "GitHub"
+        icon: "fab fa-github"
+        url: "https://github.com/UmerTariq1"
+
+  - name: "Graph-based Cloud Troubleshooting RAG Assistant"
+    description: "Developed a graph database-powered RAG system for cloud infrastructure troubleshooting using Neo4j and LangChain"
+    tags:
+      - "Neo4j"
+      - "Llama3"
+      - "LangChain"
+      - "Streamlit"
+    links:
+      - label: "GitHub"
+        icon: "fab fa-github"
+        url: "https://github.com/UmerTariq1"
+
+  - name: "AI Tool for Digital Persona Classification from Social Data"
+    description: "Created an AI-powered classification system for analyzing digital personas using transformer models and OpenAI API"
+    tags:
+      - "Python"
+      - "Transformers"
+      - "Streamlit"
+      - "OpenAI"
+      - "SpaCy"
+    links:
+      - label: "GitHub"
+        icon: "fab fa-github"
+        url: "https://github.com/UmerTariq1"
+
+  - name: "Deep IR System Using Context-Aware Vector Representations"
+    description: "Implemented a sophisticated information retrieval system leveraging BERT embeddings and vector search capabilities"
+    tags:
+      - "FAISS"
+      - "LSTM"
+      - "BERT"
+      - "Elasticsearch"
+
+  - name: "Time Series Analysis on Solar Energy Dataset"
+    description: "Performed comprehensive time series analysis and forecasting on solar energy data using statistical models"
+    tags:
+      - "EDA"
+      - "ARIMA"
+      - "SARIMA"
+      - "NumPy"
+      - "Pandas"
+
+  - name: "Lyrics Generator using LLMs and its website"
+    description: "Built a complete web application for generating song lyrics using LLMs with Angular frontend and Django backend"
+    tags:
+      - "Python"
+      - "OpenAI API"
+      - "Langchain"
+      - "Angular"
+      - "Django"
+    links:
+      - label: "GitHub"
+        icon: "fab fa-github"
+        url: "https://github.com/UmerTariq1/Lyrics-Analysis-and-Generation"
+
+  - name: "Vector Balls A Dynamic Physics-Based Survival Game"
+    description: "Created an interactive physics-based game using JavaScript and Python with both web and desktop versions"
+    tags:
+      - "HTML"
+      - "JavaScript"
+      - "Python"
+      - "PyGame"
+    links:
+      - label: "GitHub"
+        icon: "fab fa-github"
+        url: "https://github.com/UmerTariq1/Vector-Balls"
+      - label: "Website"
+        icon: "fab fa-solid fa-link"
+        url: "https://umertariq1.github.io/Vector-Balls/"
+
+skills:
+  programming_languages:
+    - name: "Python"
+      level: 5
+      proficiency: "Expert"
+    - name: "Java"
+      level: 4
+      proficiency: "Advanced"
+    - name: "JavaScript"
+      level: 4
+      proficiency: "Advanced"
+    - name: "SQL"
+      level: 4
+      proficiency: "Advanced"
+    - name: "C++"
+      level: 3
+      proficiency: "Intermediate"
+    - name: "HTML"
+      level: 3
+      proficiency: "Intermediate"
+    - name: "CSS"
+      level: 3
+      proficiency: "Intermediate"
+    - name: "NoSQL"
+      level: 3
+      proficiency: "Intermediate"
+
+  frameworks_libraries:
+    - name: "Pandas"
+      level: 5
+      proficiency: "Expert"
+    - name: "PyTorch"
+      level: 4
+      proficiency: "Advanced"
+    - name: "Hugging Face"
+      level: 4
+      proficiency: "Advanced"
+    - name: "Scikit-learn"
+      level: 4
+      proficiency: "Advanced"
+    - name: "SpaCy"
+      level: 4
+      proficiency: "Advanced"
+    - name: "TensorFlow"
+      level: 3
+      proficiency: "Intermediate"
+
+  ai_nlp_tools:
+    - name: "RAG"
+      level: 5
+      proficiency: "Expert"
+    - name: "OpenAI API"
+      level: 5
+      proficiency: "Expert"
+    - name: "Transformers"
+      level: 5
+      proficiency: "Expert"
+    - name: "Vector Search"
+      level: 5
+      proficiency: "Expert"
+    - name: "FAISS"
+      level: 5
+      proficiency: "Expert"
+    - name: "Elasticsearch"
+      level: 5
+      proficiency: "Expert"
+    - name: "LangChain"
+      level: 4
+      proficiency: "Advanced"
+
+  infrastructure_devops:
+    - name: "Git/GitHub"
+      level: 4
+      proficiency: "Advanced"
+    - name: "Docker"
+      level: 4
+      proficiency: "Advanced"
+    - name: "CI/CD"
+      level: 4
+      proficiency: "Advanced"
+    - name: "Data Pipelines"
+      level: 4
+      proficiency: "Advanced"
+    - name: "UNIX/Linux"
+      level: 4
+      proficiency: "Advanced"
+    - name: "AWS"
+      level: 3
+      proficiency: "Intermediate"
+    - name: "GCP"
+      level: 3
+      proficiency: "Intermediate"
+
+  development_practices:
+    - name: "Agile"
+      level: 5
+      proficiency: "Expert"
+    - name: "Clean Code"
+      level: 5
+      proficiency: "Expert"
+    - name: "Experiment Tracking"
+      level: 5
+      proficiency: "Expert"
+    - name: "Model Evaluation"
+      level: 5
+      proficiency: "Expert"
+    - name: "Data Logging"
+      level: 5
+      proficiency: "Expert"
+
+  soft_skills:
+    - name: "Communication"
+      level: 5
+      proficiency: "Expert"
+    - name: "Problem-solving"
+      level: 5
+      proficiency: "Expert"
+    - name: "Adaptability"
+      level: 5
+      proficiency: "Expert"
+    - name: "Ownership"
+      level: 5
+      proficiency: "Expert"
+    - name: "Collaboration"
+      level: 5
+      proficiency: "Expert"
+
+education:
+  - degree: "Master's in Language Science and Technology"
+    institution: "Saarland University"
+    url: "https://www.uni-saarland.de/en/home.html"
+    location: "Saarbrucken, Germany"
+    start: "2021"
+    end: "2025"
+    details:
+      - "Created datasets for Urdu and Roman Urdu IR with MT model."
+      - "Built a transformer-based transliteration pipeline."
+    gpa: null
+    honors: []
+
+  - degree: "Bachelor's in Computer Science"
+    institution: "FAST NUCES"
+    url: "https://khi.nu.edu.pk/"
+    location: "Pakistan"
+    start: "2015"
+    end: "2019"
+    details:
+      - "Implemented a neural-based IR system with Elasticsearch, FAISS, and embeddings from Word2Vec, LSTM, and BERT."
+      - "Achieved 2nd position among 300 projects in a university-wide competition."
+    gpa: null
+    honors:
+      - "2nd position among 300 projects in university-wide competition"
+
+publications:
+  - title: "Building the First IR Dataset and Baseline for Roman Urdu as a Low-Resource Language"
+    venue: "RANLP @ LowResNLPT"
+    year: 2025
+    status: "Published"
+    authors:
+      - "Umer Butt"
+      - "S. Varanasi"
+      - "G. Neumann"
+    abstract: null
+    link: null
+
+  - title: "AIDEN: Automatic Speaker Notes Creation and Navigation for Enhancing Online Learning Experience"
+    venue: "RANLP"
+    year: 2025
+    status: "Published"
+    authors:
+      - "S. Varanasi"
+      - "Umer Butt"
+      - "G. Neumann"
+      - "Josef van Genabith"
+    abstract: null
+    link: null
+
+  - title: "Low-Resource Transliteration for Roman-Urdu and Urdu Using Transformer-Based Models"
+    venue: "NAACL @ LoResMT"
+    year: 2025
+    status: "Published"
+    authors:
+      - "Umer Butt"
+      - "S. Varanasi"
+      - "G. Neumann"
+    abstract: null
+    link: "https://aclanthology.org/2025.loresmt-1.13/"
+
+  - title: "Enabling Low-Resource Language Retrieval: Establishing Baselines for Urdu MS MARCO"
+    venue: "ECIR"
+    year: 2024
+    status: "Published"
+    authors:
+      - "Umer Butt"
+      - "S. Varanasi"
+      - "G. Neumann"
+    abstract: null
+    link: "https://arxiv.org/abs/2412.12997"
+
+  - title: "Cross-Linguistic Processing of Non-Compositional Expressions in Slavic Languages"
+    venue: "Cog-Alex"
+    year: 2024
+    status: "Published"
+    authors:
+      - "I. Zaitova"
+      - "I. Stenger"
+      - "Umer Butt"
+      - "T. Avgustinova"
+    abstract: null
+    link: "https://aclanthology.org/2024.cogalex-1.10/"
+
+  - title: "Spatial-Economic Analysis for Optimal Electric Vehicle Charging Station Placement"
+    venue: "SASI-ITE"
+    year: 2024
+    status: "Published"
+    authors:
+      - "A. Maurya"
+      - "C. Agnes"
+      - "B. Baloch"
+      - "S. Anwari"
+      - "Umer Butt"
+    note: "equal contribution"
+    abstract: null
+    link: "https://ieeexplore.ieee.org/abstract/document/10607132"
+
+  - title: "AutoQIR: Auto-Encoding Questions with Retrieval Augmented Decoding for Unsupervised Passage Retrieval and Zero-shot Question Generation"
+    venue: "RANLP"
+    year: 2023
+    status: "Published"
+    authors:
+      - "S. Varanasi"
+      - "Umer Butt"
+      - "G. Neumann"
+    abstract: null
+    link: "https://aclanthology.org/2023.ranlp-1.124.pdf"
+
+  - title: "Fairy Tales / Children Stories of the World: Corpus Organization and Text Analytics"
+    venue: "ICLAP"
+    year: 2021
+    status: "Published"
+    authors:
+      - "Y. Khan"
+      - "Umer Butt"
+    abstract: null
+    link: "https://www.researchgate.net/publication/354381634_Classic_Fairy_Tales_Children_Stories_of_the_World_Corpus_Organization_and_Text_Analytics"
+
+photography:
+  enabled: true
+  description: "Some of the photos I've taken during my travels and outdoor adventures."
+  gallery:
+    - src: "images/cool1.jpg"
+      alt: "lake"
+      caption: "Serene lake in Pakistan."
+      location: "Pakistan"
+
+    - src: "images/cool2.jpg"
+      alt: "germany"
+      caption: "Beautiful German landscape near Munich"
+      location: "Germany"
+
+    - src: "images/cool3.jpg"
+      alt: "water"
+      caption: "Pedestrian bridge in a mountain valley in Pakistan"
+      location: "Pakistan"
+
+    - src: "images/cool4.JPG"
+      alt: "ship"
+      caption: "A sailing boat"
+      location: "Unknown"
+
+    - src: "images/cool5.JPG"
+      alt: "sunset"
+      caption: "Stunning sunset scene"
+      location: "Unknown"
+
+    - src: "images/cool6.JPG"
+      alt: "church"
+      caption: "A church in the middle of the city"
+      location: "Unknown"
+
+    - src: "images/lucca.JPG"
+      alt: "lucca"
+      caption: "A street in Lucca, Italy"
+      location: "Lucca, Italy"
+
+    - src: "images/frank.JPG"
+      alt: "frankfurt"
+      caption: "In the middle of the Frankfurt"
+      location: "Frankfurt, Germany"
+
+    - src: "images/beach.JPG"
+      alt: "beach"
+      caption: "One of the beaches in Cinque Terre"
+      location: "Cinque Terre, Italy"
+
+interests:
+  - "Photography"
+  - "Hiking"
+  - "Travel"
+  - "Outdoor Activities"
+  - "AI Research"
+  - "Open Source Projects"
+  - "Machine Learning"
+  - "Natural Language Processing"

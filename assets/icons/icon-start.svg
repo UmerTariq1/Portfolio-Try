@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 48">
+  <rect x="2" y="2" width="116" height="44" rx="22" ry="22" fill="url(#grad)" stroke="#0c4d1a" stroke-width="3"/>
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5cc563"/>
+      <stop offset="100%" stop-color="#167b35"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="24" r="12" fill="#fff"/>
+  <path d="M28 18l12 6-12 6z" fill="#2d7f3d"/>
+  <text x="60" y="30" font-family="'Segoe UI', Tahoma, sans-serif" font-size="18" fill="#f1f8f2" font-weight="600">Start</text>
+</svg>
