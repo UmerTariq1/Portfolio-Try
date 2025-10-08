@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="codeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e6f0ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c9dcfb;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect x="10" y="12" width="44" height="40" rx="8" fill="url(#codeGrad)" stroke="#6a89b6" stroke-width="2"/>
+  <path d="M26 22 l-8 10 l8 10" fill="none" stroke="#2b4d7a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M38 22 l8 10 l-8 10" fill="none" stroke="#2b4d7a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="32" cy="14" rx="14" ry="3" fill="#fff" opacity="0.3"/>
+</svg>

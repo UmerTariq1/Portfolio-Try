@@ -48,11 +48,20 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at center, rgba(0, 42, 94, 0.95), rgba(0, 17, 54, 0.98));
+  background: linear-gradient(180deg, #003d6e 0%, #005a9e 30%, #0078d7 100%);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.5s ease;
   z-index: 1000;
+}
+
+.screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><circle cx="1600" cy="200" r="800" fill="rgba(255,255,255,0.03)"/><circle cx="400" cy="800" r="600" fill="rgba(255,255,255,0.02)"/></svg>') no-repeat center;
+  background-size: cover;
+  pointer-events: none;
 }
 
 .screen--active {
@@ -61,40 +70,60 @@ button {
 }
 
 .login-panel {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 32px 40px;
-  border-radius: 12px;
-  background: rgba(10, 60, 128, 0.75);
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+  gap: 20px;
+  padding: 40px 48px 48px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  z-index: 1;
 }
 
 .login-avatar {
-  width: 124px;
-  height: 124px;
-  border-radius: 12px;
-  border: 4px solid rgba(255, 255, 255, 0.4);
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.6);
   object-fit: cover;
-  background: linear-gradient(135deg, #0f5e9c, #0a3a65);
+  background: linear-gradient(135deg, #0078d7, #005a9e);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.login-username {
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  margin-top: 8px;
 }
 
 .login-button {
-  padding: 12px 28px;
-  font-size: 18px;
+  padding: 14px 36px;
+  font-size: 16px;
+  font-weight: 600;
   color: #ffffff;
-  background: linear-gradient(180deg, #51a3f5, #1973d3);
-  border-radius: 24px;
-  border: 2px solid rgba(255, 255, 255, 0.45);
-  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.5), 0 6px 12px rgba(0, 0, 0, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: linear-gradient(180deg, #4cc2ff 0%, #0078d7 50%, #005a9e 100%);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .login-button:hover {
-  transform: translateY(-2px);
-  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.5), 0 12px 20px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(180deg, #6dd0ff 0%, #1a8ae8 50%, #006bb3 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 6px 16px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+.login-button:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .login-hint {
@@ -110,19 +139,22 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
   color: #ffffff;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 600;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .welcome-spinner {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  border: 4px solid rgba(255, 255, 255, 0.4);
-  border-top-color: rgba(255, 255, 255, 0.9);
-  animation: spin 1s linear infinite;
+  border: 5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: rgba(255, 255, 255, 0.95);
+  border-right-color: rgba(255, 255, 255, 0.7);
+  animation: spin 1.2s linear infinite;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes spin {
@@ -149,11 +181,13 @@ button {
   position: absolute;
   top: 24px;
   left: 24px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 120px);
+  bottom: var(--taskbar-height);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
   gap: 18px 24px;
   width: calc(100% - 48px);
-  pointer-events: none;
 }
 
 .desktop-icon {
@@ -161,11 +195,11 @@ button {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  pointer-events: auto;
-  cursor: default;
+  width: 120px;
+  cursor: pointer;
   padding: 12px 8px;
   border-radius: 8px;
-  transition: background 0.15s ease, box-shadow 0.15s ease;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 }
 
 .desktop-icon:focus-visible {
@@ -176,26 +210,36 @@ button {
 .desktop-icon img {
   width: 64px;
   height: 64px;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+  transition: transform 0.15s ease;
+}
+
+.desktop-icon:hover img {
+  transform: scale(1.05);
 }
 
 .desktop-icon span {
   color: #ffffff;
-  font-size: 14px;
+  font-size: 13px;
   text-align: center;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.75);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  font-weight: 500;
 }
 
-.desktop-icon:hover,
-.desktop-icon.active {
-  background: rgba(14, 100, 190, 0.35);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65), inset 0 0 0 2px rgba(16, 78, 138, 0.65);
+.desktop-icon:hover {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.desktop-icon:active {
+  transform: scale(0.98);
 }
 
 .windows-layer {
   position: absolute;
   inset: 0;
   padding-bottom: var(--taskbar-height);
+  pointer-events: none;
 }
 
 .window {
@@ -204,19 +248,22 @@ button {
   left: 160px;
   min-width: 320px;
   min-height: 260px;
+  max-width: calc(100vw - 20px);
+  max-height: calc(100vh - var(--taskbar-height) - 20px);
   background: var(--window-bg);
   border-radius: 8px;
-  box-shadow: 0 16px 32px var(--window-shadow);
+  box-shadow: 0 16px 32px var(--window-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   border: 2px solid var(--window-border);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   animation: window-in 0.35s ease;
+  pointer-events: auto;
 }
 
 .window.maximized {
   border-radius: 0;
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px var(--window-shadow);
 }
 
 @keyframes window-in {
@@ -240,12 +287,13 @@ button {
   align-items: center;
   justify-content: space-between;
   padding: 0 12px;
-  height: 38px;
+  height: 44px;
   background: linear-gradient(180deg, #3a80d7 0%, #1553a5 100%);
   color: #fff;
   font-weight: 600;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   cursor: grab;
+  flex-shrink: 0;
 }
 
 .window-header:active {
@@ -257,27 +305,45 @@ button {
   align-items: center;
   gap: 10px;
   font-size: 15px;
+  overflow: hidden;
+}
+
+.window-title img {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
 .window-controls {
   display: flex;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .window-controls button {
-  width: 18px;
-  height: 18px;
+  width: 21px;
+  height: 21px;
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.25);
   position: relative;
+  transition: all 0.2s ease;
 }
 
 .window-controls button:hover {
   background: rgba(255, 255, 255, 0.6);
+  transform: scale(1.1);
+}
+
+.window-controls button:active {
+  transform: scale(0.95);
 }
 
 .window-controls button[data-action="close"] {
   background: linear-gradient(180deg, #f56a6a, #b52020);
+}
+
+.window-controls button[data-action="close"]:hover {
+  background: linear-gradient(180deg, #ff8080, #d63030);
 }
 
 .window-controls button[data-action="close"]::before,
@@ -285,10 +351,11 @@ button {
   content: '';
   position: absolute;
   inset: 50% auto auto 50%;
-  width: 10px;
-  height: 2px;
+  width: 12px;
+  height: 2.5px;
   background: #fff;
   transform-origin: center;
+  pointer-events: none;
 }
 
 .window-controls button[data-action="close"]::before {
@@ -304,33 +371,64 @@ button {
   position: absolute;
   left: 4px;
   right: 4px;
-  bottom: 5px;
-  height: 2px;
+  bottom: 6px;
+  height: 2.5px;
   background: #0a2f67;
+  pointer-events: none;
 }
 
 .window-controls button[data-action="maximize"]::before {
   content: '';
   position: absolute;
   inset: 4px;
-  border: 2px solid #0a2f67;
+  border: 2.5px solid #0a2f67;
   border-radius: 2px;
+  pointer-events: none;
 }
 
 .window-body {
   flex: 1;
   padding: 16px 18px 18px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(240, 244, 255, 0.95));
   color: #1a1d25;
   font-size: 15px;
-  line-height: 1.5;
+  line-height: 1.6;
+  scrollbar-width: thin;
+  scrollbar-color: #7aa4d8 #e8f0ff;
+}
+
+/* Extra top padding in Contact app so tooltips of first row are visible */
+.window[data-section="contact"] .window-body {
+  padding-top: 28px;
+}
+
+.window-body::-webkit-scrollbar {
+  width: 12px;
+}
+
+.window-body::-webkit-scrollbar-track {
+  background: #e8f0ff;
+  border-left: 1px solid #b8d4e8;
+}
+
+.window-body::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #7aa4d8, #5a8ac0);
+  border-radius: 6px;
+  border: 2px solid #e8f0ff;
+}
+
+.window-body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #5a8ac0, #3a6aa0);
 }
 
 .window-body h3 {
   margin: 0 0 12px;
   font-size: 18px;
   color: #0a4a92;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #d0e0ff;
 }
 
 .window-body h4 {
@@ -345,12 +443,143 @@ button {
   margin: 8px 0 16px;
 }
 
+/* Contact grid inside Contact app */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(10, 70, 140, 0.06);
+  border: 1px solid rgba(10, 70, 140, 0.15);
+  text-decoration: none;
+  color: #0a3b76;
+}
+
+.contact-card:hover {
+  background: rgba(10, 70, 140, 0.12);
+}
+
+.contact-card img {
+  width: 22px;
+  height: 22px;
+}
+
+/* Chips for highlights */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #e8f0ff, #d7e6ff);
+  border: 1px solid #b8d4e8;
+  color: #0a3b76;
+  font-weight: 600;
+}
+
+.chip-emoji {
+  font-size: 16px;
+}
+
+/* Interests grid */
+.interests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.interest-tile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(10, 70, 140, 0.06);
+  border: 1px solid rgba(10, 70, 140, 0.15);
+}
+
+.interest-tile:hover {
+  background: rgba(10, 70, 140, 0.12);
+}
+
+.tile-emoji {
+  font-size: 22px;
+}
+
+.tile-label {
+  font-weight: 600;
+  color: #0a3b76;
+}
+
+/* Tooltips */
+.has-tooltip {
+  position: relative;
+}
+
+.has-tooltip[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(100% + 8px);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1001;
+}
+
+.has-tooltip[data-tooltip]:hover::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 100%;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid rgba(0, 0, 0, 0.8);
+  z-index: 1001;
+}
+
+.window-body li {
+  margin-bottom: 6px;
+}
+
+.window-body section {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(122, 164, 216, 0.2);
+}
+
+.window-body section:last-child {
+  border-bottom: none;
+}
+
 .window-body a {
   color: #0a4a92;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .window-body a:hover {
+  color: #0078d7;
   text-decoration: underline;
 }
 
@@ -381,19 +610,32 @@ button {
 
 .start-button {
   width: 120px;
-  height: 40px;
-  border-radius: 22px;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0))
+  height: 42px;
+  border-radius: 24px;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0))
     , linear-gradient(180deg, #6dc96f 0%, #2e873b 100%);
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.55), inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.6), inset 0 -2px 0 rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.start-button:hover {
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0))
+    , linear-gradient(180deg, #7dd97f 0%, #3a9745 100%);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.7), inset 0 -2px 0 rgba(0, 0, 0, 0.3), 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.start-button:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .start-button img {
   width: 100%;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 
 .taskbar-items {
@@ -405,6 +647,7 @@ button {
 
 .taskbar-item {
   min-width: 140px;
+  max-width: 200px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -413,10 +656,23 @@ button {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(20, 60, 120, 0.4));
   color: #fff;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.taskbar-item:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(20, 60, 120, 0.5));
 }
 
 .taskbar-item.active {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(20, 60, 120, 0.65));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.taskbar-item span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .taskbar-item img {
@@ -478,10 +734,12 @@ button {
   bottom: var(--taskbar-height);
   left: 12px;
   width: var(--start-menu-width);
-  background: linear-gradient(90deg, rgba(5, 40, 90, 0.9) 0%, rgba(5, 40, 90, 0.75) 22%, rgba(250, 251, 255, 0.97) 22%, rgba(250, 251, 255, 0.97) 100%);
+  max-height: calc(100vh - var(--taskbar-height) - 24px);
+  background: linear-gradient(90deg, rgba(5, 40, 90, 0.95) 0%, rgba(5, 40, 90, 0.8) 22%, rgba(250, 251, 255, 0.98) 22%, rgba(250, 251, 255, 0.98) 100%);
   border-radius: 12px 12px 0 0;
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   border: 2px solid rgba(0, 0, 0, 0.3);
+  border-bottom: none;
   display: flex;
   overflow: hidden;
 }
@@ -492,6 +750,26 @@ button {
   color: #fff;
   background: linear-gradient(180deg, rgba(16, 74, 146, 0.95), rgba(8, 48, 100, 0.95));
   border-right: 1px solid rgba(255, 255, 255, 0.25);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.2);
+}
+
+.start-menu__left::-webkit-scrollbar {
+  width: 8px;
+}
+
+.start-menu__left::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.start-menu__left::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+}
+
+.start-menu__left::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .start-menu__left h2 {
@@ -549,6 +827,12 @@ button {
   background: rgba(255, 255, 255, 0.12);
   color: #fff;
   font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.start-extra:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
 .start-extra img {
@@ -586,10 +870,18 @@ button {
   color: #0d2b56;
   text-decoration: none;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .start-menu__right li a:hover {
   text-decoration: underline;
+}
+
+.start-contact img {
+  width: 18px;
+  height: 18px;
 }
 
 .start-menu__power button {
@@ -678,8 +970,11 @@ button {
 
 @media (max-width: 900px) {
   .desktop-icons {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 12px 18px;
+  }
+
+  .desktop-icon {
+    width: 100px;
   }
 
   .window {

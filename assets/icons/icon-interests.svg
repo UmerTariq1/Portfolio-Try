@@ -1,4 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <circle cx="32" cy="32" r="26" fill="#f5d76e" stroke="#caa032" stroke-width="3"/>
-  <path d="M32 16l5.3 10.7 11.7 1.7-8.5 8.3 2 11.6L32 42l-10.5 6.3 2-11.6-8.5-8.3 11.7-1.7z" fill="#fff1b8" stroke="#caa032" stroke-width="2"/>
+  <defs>
+    <linearGradient id="heartGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ec407a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c2185b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <path d="M32 52 C32 52 10 36 10 24 C10 16 16 12 20 12 C24 12 28 14 32 20 C36 14 40 12 44 12 C48 12 54 16 54 24 C54 36 32 52 32 52 Z" fill="url(#heartGrad)" stroke="#880e4f" stroke-width="2"/>
+  <path d="M32 52 C32 52 10 36 10 24 C10 16 16 12 20 12 C24 12 28 14 32 20 C36 14 40 12 44 12 C48 12 54 16 54 24 C54 36 32 52 32 52 Z" fill="url(#folderLight)" stroke="none"/>
+  <ellipse cx="32" cy="22" rx="12" ry="3" fill="#fff" opacity="0.4"/>
 </svg>

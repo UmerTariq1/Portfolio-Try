@@ -1,6 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <path d="M8 24l24-12 24 12-24 12z" fill="#2d6ec3" stroke="#103f7a" stroke-width="2"/>
-  <path d="M16 30v12c0 6 7.2 10 16 10s16-4 16-10V30" fill="#184f97" opacity="0.9"/>
-  <path d="M48 28l6 3v14" stroke="#103f7a" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="54" cy="46" r="3" fill="#f8b400"/>
+  <defs>
+    <linearGradient id="eduGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#42a5f5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1565c0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <polygon points="32,12 8,24 32,36 56,24" fill="url(#eduGrad)" stroke="#0d47a1" stroke-width="2"/>
+  <polygon points="32,36 8,24 8,40 32,52" fill="#1976d2" opacity="0.8"/>
+  <polygon points="32,36 56,24 56,40 32,52" fill="#0d47a1" opacity="0.6"/>
+  <rect x="52" y="24" width="4" height="20" fill="#c62828"/>
+  <circle cx="54" cy="46" r="3" fill="#e53935"/>
+  <ellipse cx="32" cy="24" rx="18" ry="4" fill="#fff" opacity="0.3"/>
 </svg>

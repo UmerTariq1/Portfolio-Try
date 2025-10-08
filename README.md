@@ -1,6 +1,6 @@
 # Retro Windows Portfolio
 
-This project renders **Umer Butt's** resume as an interactive Windows Vista/Windows 7 inspired desktop. The entire desktop experience – login animation, Bliss wallpaper, draggable explorer windows, Start menu, taskbar clock, and context menu – is generated from a single YAML data file so it can be deployed as a static site (e.g., GitHub Pages).
+This is the project implementation of my portfolio website. The entire desktop experience – login animation, Bliss wallpaper, draggable explorer windows, Start menu, taskbar clock, and context menu, is generated from a single YAML data file so it can be deployed as a static site (e.g., GitHub Pages).
 
 ## Project structure
 
@@ -29,52 +29,43 @@ images/, resources/      # Media referenced from the YAML file
 
 Feel free to add, remove, or rename sections – the desktop updates automatically as long as the YAML indentation is consistent.
 
-## Running locally
-
-Because the site is static you only need a simple web server. From the project root run:
-
-```bash
-npx serve .
-```
-
-or, if you prefer Python’s built-in server:
-
-```bash
-python -m http.server 8000
-```
-
-Then open the provided URL (e.g. `http://localhost:3000` or `http://localhost:8000`). Any web server that can host static files will work.
-
-## Deploying to GitHub Pages
-
-This repository now ships with a GitHub Actions workflow (`.github/workflows/deploy.yml`) that publishes the static assets to GitHub Pages whenever the `main` branch is updated. To deploy:
-
-1. Create a new repository on GitHub (or use your existing portfolio repo) and set its default branch to `main`.
-2. Add the GitHub remote and push the contents of this project:
-
-   ```bash
-   git remote add origin git@github.com:<your-user>/<your-repo>.git
-   git push -u origin main
-   ```
-
-3. In the GitHub UI, navigate to **Settings → Pages** and ensure the “GitHub Actions” build and deployment source is enabled.
-4. The `Deploy static site to GitHub Pages` workflow will run automatically on every push to `main`. When it succeeds, the `github-pages` environment will show the public URL.
-5. Visit the URL to confirm the faux Windows desktop loads correctly.
-
-If you would rather deploy manually, you can upload the project folder to the `gh-pages` branch or the classic `docs/` Pages source.
 
 ## Features
 
-- Windows 7-style login screen with faux boot animation and synthesized start-up sound.
-- Bliss-inspired wallpaper, hover highlights, and authentic icon styling.
-- Draggable, resizable explorer windows for every YAML section (Projects, Experience, Skills, etc.).
-- Taskbar with rounded Start button, live-updating clock, window previews, and tray icons.
-- Start menu mirroring the classic two-column layout with contact links and a Log Off action.
-- Desktop context menu (Refresh, Properties, Personalize) and a faux calendar popup.
-- Lightweight JavaScript YAML parser to keep the site portable with zero dependencies.
+- **Windows 7-style login screen** with glassmorphism effect, faux boot animation, and synthesized start-up sound
+- **Authentic Aero-styled icons** with gradients and glossy effects for all sections
+- **Fully functional desktop**:
+  - Single-click to open desktop icons
+  - Draggable, resizable, and scrollable explorer windows with proper size constraints
+  - Window control buttons (minimize, maximize, close) work on all windows
+  - Windows stay within screen bounds
+- **Built-in applications**:
+  - **Notepad** - functional text editor with resizable window
+  - **Calculator** - working calculator with basic operations (+, -, *, /)
+  - **Paint** - placeholder for future implementation
+- **Enhanced taskbar**:
+  - Polished Start button with hover effects
+  - Live-updating clock with calendar popup
+  - Window previews and taskbar buttons for all open windows
+- **Start menu** with classic two-column layout, contact links, and Log Off action
+- **Desktop context menu** (Refresh, Properties, Personalize)
+- **Custom scrollbars** styled to match Windows 7 Aero theme
+- **Lightweight JavaScript YAML parser** - zero external dependencies, works completely offline
+- **Fully responsive** with graceful mobile degradation
 
 ## Customisation tips
 
 - Replace the placeholder images inside `/images` with your actual photos/avatars while keeping the same filenames (or update the YAML paths).
 - Update `resources/Resume_Umer_Butt.pdf` with your CV export to keep the Start menu shortcut valid.
 - Edit or extend the YAML file to surface additional sections – icons and Start menu links are generated automatically.
+- Customize the Aero-style icons in `assets/icons/` - they're all SVG files with gradient definitions.
+- Adjust window sizes by modifying the `width` and `height` in `buildWindow()` function in `app.js`.
+- Tweak the color scheme by modifying CSS custom properties in `style.css` (look for `:root`).
+
+## Browser Compatibility
+
+Works best in modern browsers (Chrome, Firefox, Safari, Edge). Features used:
+- CSS Grid and Flexbox for layouts
+- CSS custom properties (CSS variables)
+- Modern ES6+ JavaScript (async/await, arrow functions, template literals)
+- Web Audio API for startup sound

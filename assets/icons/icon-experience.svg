@@ -1,12 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect x="10" y="12" width="44" height="40" rx="4" ry="4" fill="#2c7ec3" stroke="#15518a" stroke-width="2"/>
-  <rect x="18" y="10" width="28" height="8" rx="2" ry="2" fill="#1e5f99"/>
-  <g fill="#e6f3ff">
-    <rect x="16" y="22" width="8" height="8" rx="1"/>
-    <rect x="28" y="22" width="8" height="8" rx="1"/>
-    <rect x="40" y="22" width="8" height="8" rx="1"/>
-    <rect x="16" y="34" width="8" height="8" rx="1"/>
-    <rect x="28" y="34" width="8" height="8" rx="1"/>
-    <rect x="40" y="34" width="8" height="8" rx="1"/>
-  </g>
+  <defs>
+    <linearGradient id="briefcaseGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8d6e63;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5d4037;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect x="8" y="22" width="48" height="32" rx="4" fill="url(#briefcaseGrad)" stroke="#3e2723" stroke-width="2"/>
+  <rect x="22" y="14" width="20" height="12" rx="2" fill="#6d4c41" stroke="#3e2723" stroke-width="1.5"/>
+  <rect x="8" y="32" width="48" height="8" fill="#4e342e" opacity="0.5"/>
+  <circle cx="32" cy="36" r="3" fill="#ffd54f" stroke="#ffc107" stroke-width="1"/>
+  <ellipse cx="32" cy="25" rx="18" ry="3" fill="#fff" opacity="0.2"/>
 </svg>

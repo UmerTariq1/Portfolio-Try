@@ -13,6 +13,17 @@ const SECTION_ICONS = {
   interests: 'assets/icons/icon-interests.svg'
 };
 
+// Icons for specific contact channels
+const CONTACT_ICONS = {
+  email: 'assets/icons/icon-email.svg',
+  phone: 'assets/icons/icon-phone.svg',
+  website: 'assets/icons/icon-website.svg',
+  github: 'assets/icons/icon-github.svg',
+  linkedin: 'assets/icons/icon-linkedin.svg',
+  scholar: 'assets/icons/icon-scholar.svg',
+  resume: 'assets/icons/icon-resume.svg'
+};
+
 const SECTION_TITLES = {
   personal_info: 'About Me',
   contact: 'Contact',
@@ -26,6 +37,10 @@ const SECTION_TITLES = {
   photography: 'Photography',
   interests: 'Interests'
 };
+
+// Sections that should not render separate icons/windows because they are
+// now combined under About Me (personal_info)
+const HIDDEN_SECTIONS = new Set(['summary', 'interests', 'highlights']);
 
 const state = {
   data: null,
@@ -178,6 +193,7 @@ const loginScreen = document.getElementById('login-screen');
 const welcomeScreen = document.getElementById('welcome-screen');
 const loginButton = document.getElementById('login-button');
 const loginAvatar = document.getElementById('login-avatar');
+const loginUsername = document.getElementById('login-username');
 const logOffButton = document.getElementById('log-off-button');
 
 async function init() {
@@ -186,6 +202,9 @@ async function init() {
   state.data = parseYAML(yamlText);
   if (state.data?.personal_info?.avatar) {
     loginAvatar.src = state.data.personal_info.avatar;
+  }
+  if (state.data?.personal_info?.name) {
+    loginUsername.textContent = state.data.personal_info.name;
   }
   prepareDesktop();
   bindGlobalEvents();
@@ -205,6 +224,7 @@ function prepareDesktop() {
 function createDesktopIcons() {
   desktopIconsEl.innerHTML = '';
   Object.keys(state.data).forEach((key, index) => {
+    if (HIDDEN_SECTIONS.has(key)) return;
     const icon = document.createElement('button');
     icon.className = 'desktop-icon';
     icon.dataset.section = key;
@@ -212,24 +232,28 @@ function createDesktopIcons() {
       <img src="${SECTION_ICONS[key] || 'assets/icons/icon-folder.svg'}" alt="${SECTION_TITLES[key] || formatTitle(key)} icon" />
       <span>${SECTION_TITLES[key] || formatTitle(key)}</span>
     `;
-    icon.addEventListener('dblclick', () => openWindow(key));
+    // Single click to open
+    icon.addEventListener('click', (e) => {
+      e.stopPropagation();
+      console.log('Desktop icon clicked:', key);
+      playClickSound();
+      openWindow(key);
+    });
     icon.addEventListener('keyup', (event) => {
       if (event.key === 'Enter') {
         openWindow(key);
       }
     });
-    icon.addEventListener('click', () => {
-      document.querySelectorAll('.desktop-icon').forEach((item) => item.classList.remove('active'));
-      icon.classList.add('active');
-    });
     icon.style.setProperty('--icon-index', index);
     desktopIconsEl.appendChild(icon);
   });
+  console.log('Desktop icons created:', Object.keys(state.data).length);
 }
 
 function populateStartMenu() {
   startMenuPrograms.innerHTML = '';
   Object.keys(state.data).forEach((key) => {
+    if (HIDDEN_SECTIONS.has(key)) return;
     const li = document.createElement('li');
     const button = document.createElement('button');
     button.innerHTML = `
@@ -237,6 +261,7 @@ function populateStartMenu() {
       <span>${SECTION_TITLES[key] || formatTitle(key)}</span>
     `;
     button.addEventListener('click', () => {
+      playClickSound();
       openWindow(key);
       toggleStartMenu(false);
     });
@@ -252,10 +277,43 @@ function populateStartMenu() {
     link.href = formatContactLink(label, value);
     link.target = '_blank';
     link.rel = 'noopener';
-    link.textContent = formatTitle(label);
+    link.className = 'start-contact has-tooltip';
+    link.setAttribute('data-tooltip', value);
+    const iconSrc = CONTACT_ICONS[label] || 'assets/icons/icon-contact.svg';
+    link.innerHTML = `
+      <img src="${iconSrc}" alt="${formatTitle(label)}" />
+      <span>${formatTitle(label)}</span>
+    `;
+    link.addEventListener('click', () => {
+      playClickSound();
+    });
     li.appendChild(link);
     startMenuContact.appendChild(li);
   });
+}
+
+function openApp(appName) {
+  const existing = state.windows.get(appName);
+  if (existing) {
+    existing.classList.remove('minimized');
+    focusWindow(existing, appName);
+    return;
+  }
+
+  let windowEl;
+  if (appName === 'notepad') {
+    windowEl = buildNotepadWindow();
+  } else if (appName === 'calculator') {
+    windowEl = buildCalculatorWindow();
+  } else if (appName === 'paint') {
+    windowEl = buildPaintWindow();
+  }
+
+  if (!windowEl) return;
+  windowsLayerEl.appendChild(windowEl);
+  state.windows.set(appName, windowEl);
+  addTaskbarItem(appName, appName === 'notepad' ? 'Notepad' : appName === 'calculator' ? 'Calculator' : 'Paint');
+  focusWindow(windowEl, appName);
 }
 
 function openWindow(section) {
@@ -282,6 +340,9 @@ function buildWindow(section) {
   wrapper.className = 'window';
   wrapper.dataset.section = section;
   wrapper.style.zIndex = ++state.zIndex;
+  // Set default size for windows
+  wrapper.style.width = '600px';
+  wrapper.style.height = '500px';
 
   const header = document.createElement('header');
   header.className = 'window-header';
@@ -320,8 +381,17 @@ function buildWindow(section) {
   enableDrag(wrapper, header);
   enableResize(wrapper, resizer);
 
-  header.addEventListener('dblclick', () => toggleMaximize(wrapper));
+  header.addEventListener('dblclick', (e) => {
+    const inControls = (node) => node && node.closest && node.closest('.window-controls');
+    if (inControls(e.target)) return;
+    const path = e.composedPath ? e.composedPath() : [];
+    if (path.some((el) => el && el.classList && el.classList.contains('window-controls'))) return;
+    toggleMaximize(wrapper);
+  });
+  
+  controls.addEventListener('dblclick', (event) => event.stopPropagation());
   controls.addEventListener('click', (event) => {
+    event.stopPropagation();
     const button = event.target.closest('button');
     if (!button) return;
     const action = button.dataset.action;
@@ -376,7 +446,7 @@ function renderPersonalInfo() {
   header.style.alignItems = 'center';
   header.style.gap = '16px';
   const img = document.createElement('img');
-  img.src = info.avatar || 'images/me.jpg';
+  img.src = info.avatar || 'images/me.png';
   img.alt = `${info.name || 'User'} avatar`;
   img.style.width = '96px';
   img.style.height = '96px';
@@ -387,33 +457,33 @@ function renderPersonalInfo() {
   header.append(img, nameBlock);
   container.appendChild(header);
 
-  if (Array.isArray(state.data.highlights)) {
-    const highlightTitle = document.createElement('h4');
-    highlightTitle.textContent = 'Highlights';
-    const highlightList = document.createElement('ul');
-    state.data.highlights.forEach((item) => {
-      const li = document.createElement('li');
-      li.textContent = item;
-      highlightList.appendChild(li);
+  // Summary section (merged)
+  if (Array.isArray(state.data.summary) && state.data.summary.length) {
+    const summaryTitle = document.createElement('h4');
+    summaryTitle.textContent = 'Summary';
+    const summary = document.createElement('div');
+    (state.data.summary || []).forEach((paragraph) => {
+      const p = document.createElement('p');
+      p.innerHTML = formatMarkdown(paragraph);
+      summary.appendChild(p);
     });
-    container.append(highlightTitle, highlightList);
+    container.append(summaryTitle, summary);
   }
 
-  if (state.data.contact) {
-    const contactTitle = document.createElement('h4');
-    contactTitle.textContent = 'Contact';
-    const contactList = document.createElement('ul');
-    Object.entries(state.data.contact).forEach(([key, value]) => {
-      const li = document.createElement('li');
-      const link = document.createElement('a');
-      link.href = formatContactLink(key, value);
-      link.textContent = `${formatTitle(key)}: ${value}`;
-      link.target = '_blank';
-      link.rel = 'noopener';
-      li.appendChild(link);
-      contactList.appendChild(li);
-    });
-    container.append(contactTitle, contactList);
+  // Highlights section (merged) using chips
+  if (Array.isArray(state.data.highlights) && state.data.highlights.length) {
+    const highlightsTitle = document.createElement('h4');
+    highlightsTitle.textContent = 'Highlights';
+    const chips = renderHighlights();
+    container.append(highlightsTitle, chips);
+  }
+
+  // Interests section (merged) using styled tiles
+  if (Array.isArray(state.data.interests) && state.data.interests.length) {
+    const interestsTitle = document.createElement('h4');
+    interestsTitle.textContent = 'Interests';
+    const interestsGrid = renderInterests();
+    container.append(interestsTitle, interestsGrid);
   }
 
   return container;
@@ -421,18 +491,24 @@ function renderPersonalInfo() {
 
 function renderContact() {
   const container = document.createElement('div');
-  const contactList = document.createElement('ul');
+  container.className = 'contact-grid';
   (Object.entries(state.data.contact || {})).forEach(([key, value]) => {
-    const li = document.createElement('li');
-    const link = document.createElement('a');
-    link.href = formatContactLink(key, value);
-    link.target = '_blank';
-    link.rel = 'noopener';
-    link.textContent = `${formatTitle(key)}: ${value}`;
-    li.appendChild(link);
-    contactList.appendChild(li);
+    const card = document.createElement('a');
+    card.href = formatContactLink(key, value);
+    card.target = '_blank';
+    card.rel = 'noopener';
+    card.className = 'contact-card has-tooltip';
+    card.setAttribute('data-tooltip', value);
+
+    const img = document.createElement('img');
+    img.src = CONTACT_ICONS[key] || 'assets/icons/icon-contact.svg';
+    img.alt = formatTitle(key);
+    const label = document.createElement('strong');
+    label.textContent = formatTitle(key);
+
+    card.append(img, label);
+    container.appendChild(card);
   });
-  container.appendChild(contactList);
   return container;
 }
 
@@ -448,13 +524,15 @@ function renderSummary() {
 
 function renderHighlights() {
   const container = document.createElement('div');
-  const list = document.createElement('ul');
+  container.className = 'chips';
   (state.data.highlights || []).forEach((item) => {
-    const li = document.createElement('li');
-    li.textContent = item;
-    list.appendChild(li);
+    const chip = document.createElement('span');
+    chip.className = 'chip has-tooltip';
+    chip.setAttribute('data-tooltip', item);
+    const emoji = getHighlightEmoji(item);
+    chip.innerHTML = `<span class="chip-emoji">${emoji}</span><span>${item}</span>`;
+    container.appendChild(chip);
   });
-  container.appendChild(list);
   return container;
 }
 
@@ -629,28 +707,353 @@ function renderPhotography() {
 
 function renderInterests() {
   const container = document.createElement('div');
-  const list = document.createElement('ul');
+  container.className = 'interests-grid';
   (state.data.interests || []).forEach((interest) => {
-    const li = document.createElement('li');
-    li.textContent = interest;
-    list.appendChild(li);
+    const tile = document.createElement('div');
+    tile.className = 'interest-tile has-tooltip';
+    tile.setAttribute('data-tooltip', interest);
+    const emoji = getInterestEmoji(interest);
+    tile.innerHTML = `<span class="tile-emoji">${emoji}</span><span class="tile-label">${interest}</span>`;
+    container.appendChild(tile);
   });
-  container.appendChild(list);
   return container;
 }
 
-function addTaskbarItem(section) {
+function buildNotepadWindow() {
+  const wrapper = document.createElement('section');
+  wrapper.className = 'window';
+  wrapper.dataset.section = 'notepad';
+  wrapper.style.zIndex = ++state.zIndex;
+  wrapper.style.width = '600px';
+  wrapper.style.height = '450px';
+
+  const header = document.createElement('header');
+  header.className = 'window-header';
+  const titleEl = document.createElement('div');
+  titleEl.className = 'window-title';
+  const icon = document.createElement('img');
+  icon.src = 'assets/icons/icon-notepad.svg';
+  icon.alt = 'Notepad';
+  titleEl.append(icon, document.createTextNode('Notepad'));
+  const controls = document.createElement('div');
+  controls.className = 'window-controls';
+  ['minimize', 'maximize', 'close'].forEach((action) => {
+    const btn = document.createElement('button');
+    btn.dataset.action = action;
+    btn.title = formatTitle(action);
+    controls.appendChild(btn);
+  });
+  header.append(titleEl, controls);
+  wrapper.appendChild(header);
+
+  const body = document.createElement('div');
+  body.className = 'window-body';
+  body.style.padding = '0';
+  const textarea = document.createElement('textarea');
+  textarea.className = 'notepad-textarea';
+  textarea.placeholder = 'Start typing...';
+  textarea.style.width = '100%';
+  textarea.style.height = '100%';
+  textarea.style.border = 'none';
+  textarea.style.outline = 'none';
+  textarea.style.resize = 'none';
+  textarea.style.fontFamily = 'Consolas, "Courier New", monospace';
+  textarea.style.fontSize = '14px';
+  textarea.style.padding = '12px';
+  textarea.style.backgroundColor = '#fff';
+  body.appendChild(textarea);
+  wrapper.appendChild(body);
+
+  const resizer = document.createElement('div');
+  resizer.className = 'window-resizer';
+  wrapper.appendChild(resizer);
+
+  positionWindow(wrapper);
+  enableDrag(wrapper, header);
+  enableResize(wrapper, resizer);
+
+  header.addEventListener('dblclick', (e) => {
+    const inControls = (node) => node && node.closest && node.closest('.window-controls');
+    if (inControls(e.target)) return;
+    const path = e.composedPath ? e.composedPath() : [];
+    if (path.some((el) => el && el.classList && el.classList.contains('window-controls'))) return;
+    toggleMaximize(wrapper);
+  });
+  
+  controls.addEventListener('dblclick', (event) => event.stopPropagation());
+  controls.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const button = event.target.closest('button');
+    if (!button) return;
+    const action = button.dataset.action;
+    if (action === 'close') {
+      closeWindow('notepad');
+    } else if (action === 'minimize') {
+      minimizeWindow('notepad');
+    } else if (action === 'maximize') {
+      toggleMaximize(wrapper);
+    }
+  });
+
+  wrapper.addEventListener('mousedown', () => focusWindow(wrapper, 'notepad'));
+
+  return wrapper;
+}
+
+function buildCalculatorWindow() {
+  const wrapper = document.createElement('section');
+  wrapper.className = 'window calculator-window';
+  wrapper.dataset.section = 'calculator';
+  wrapper.style.zIndex = ++state.zIndex;
+  wrapper.style.width = '320px';
+  wrapper.style.height = '420px';
+
+  const header = document.createElement('header');
+  header.className = 'window-header';
+  const titleEl = document.createElement('div');
+  titleEl.className = 'window-title';
+  const icon = document.createElement('img');
+  icon.src = 'assets/icons/icon-calculator.svg';
+  icon.alt = 'Calculator';
+  titleEl.append(icon, document.createTextNode('Calculator'));
+  const controls = document.createElement('div');
+  controls.className = 'window-controls';
+  ['minimize', 'close'].forEach((action) => {
+    const btn = document.createElement('button');
+    btn.dataset.action = action;
+    btn.title = formatTitle(action);
+    controls.appendChild(btn);
+  });
+  header.append(titleEl, controls);
+  wrapper.appendChild(header);
+
+  const body = document.createElement('div');
+  body.className = 'window-body';
+  body.style.padding = '16px';
+  body.style.display = 'flex';
+  body.style.flexDirection = 'column';
+  body.style.gap = '12px';
+
+  const display = document.createElement('div');
+  display.className = 'calc-display';
+  display.textContent = '0';
+  display.style.padding = '16px';
+  display.style.backgroundColor = '#fff';
+  display.style.border = '2px solid #7aa4d8';
+  display.style.borderRadius = '4px';
+  display.style.fontSize = '28px';
+  display.style.textAlign = 'right';
+  display.style.fontFamily = 'Consolas, monospace';
+  display.style.minHeight = '50px';
+  display.style.wordBreak = 'break-all';
+  body.appendChild(display);
+
+  const buttonsContainer = document.createElement('div');
+  buttonsContainer.style.display = 'grid';
+  buttonsContainer.style.gridTemplateColumns = 'repeat(4, 1fr)';
+  buttonsContainer.style.gap = '8px';
+
+  const buttons = [
+    '7', '8', '9', '/',
+    '4', '5', '6', '*',
+    '1', '2', '3', '-',
+    'C', '0', '=', '+'
+  ];
+
+  let currentValue = '0';
+  let previousValue = '';
+  let operation = null;
+
+  const updateDisplay = (value) => {
+    display.textContent = value;
+  };
+
+  buttons.forEach((btnText) => {
+    const btn = document.createElement('button');
+    btn.textContent = btnText;
+    btn.style.padding = '16px';
+    btn.style.fontSize = '18px';
+    btn.style.fontWeight = 'bold';
+    btn.style.border = '2px solid #7aa4d8';
+    btn.style.borderRadius = '4px';
+    btn.style.backgroundColor = '#e8f0ff';
+    btn.style.cursor = 'pointer';
+    btn.style.transition = 'all 0.1s';
+    
+    btn.addEventListener('mouseenter', () => {
+      btn.style.backgroundColor = '#d0e0ff';
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.backgroundColor = '#e8f0ff';
+    });
+
+    btn.addEventListener('click', () => {
+      if (btnText >= '0' && btnText <= '9') {
+        if (currentValue === '0' || currentValue === 'Error') {
+          currentValue = btnText;
+        } else {
+          currentValue += btnText;
+        }
+        updateDisplay(currentValue);
+      } else if (btnText === 'C') {
+        currentValue = '0';
+        previousValue = '';
+        operation = null;
+        updateDisplay(currentValue);
+      } else if (['+', '-', '*', '/'].includes(btnText)) {
+        if (operation && previousValue) {
+          // Calculate previous operation first
+          const prev = parseFloat(previousValue);
+          const curr = parseFloat(currentValue);
+          let result;
+          switch (operation) {
+            case '+': result = prev + curr; break;
+            case '-': result = prev - curr; break;
+            case '*': result = prev * curr; break;
+            case '/': result = curr !== 0 ? prev / curr : 'Error'; break;
+          }
+          currentValue = result.toString();
+          updateDisplay(currentValue);
+        }
+        previousValue = currentValue;
+        currentValue = '0';
+        operation = btnText;
+      } else if (btnText === '=') {
+        if (operation && previousValue) {
+          const prev = parseFloat(previousValue);
+          const curr = parseFloat(currentValue);
+          let result;
+          switch (operation) {
+            case '+': result = prev + curr; break;
+            case '-': result = prev - curr; break;
+            case '*': result = prev * curr; break;
+            case '/': result = curr !== 0 ? prev / curr : 'Error'; break;
+          }
+          currentValue = result.toString();
+          previousValue = '';
+          operation = null;
+          updateDisplay(currentValue);
+        }
+      }
+    });
+
+    buttonsContainer.appendChild(btn);
+  });
+
+  body.appendChild(buttonsContainer);
+  wrapper.appendChild(body);
+
+  positionWindow(wrapper);
+  enableDrag(wrapper, header);
+
+  header.addEventListener('dblclick', (e) => e.preventDefault());
+  
+  controls.addEventListener('dblclick', (event) => event.stopPropagation());
+  controls.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const button = event.target.closest('button');
+    if (!button) return;
+    const action = button.dataset.action;
+    if (action === 'close') {
+      closeWindow('calculator');
+    } else if (action === 'minimize') {
+      minimizeWindow('calculator');
+    }
+  });
+
+  wrapper.addEventListener('mousedown', () => focusWindow(wrapper, 'calculator'));
+
+  return wrapper;
+}
+
+function buildPaintWindow() {
+  const wrapper = document.createElement('section');
+  wrapper.className = 'window';
+  wrapper.dataset.section = 'paint';
+  wrapper.style.zIndex = ++state.zIndex;
+  wrapper.style.width = '700px';
+  wrapper.style.height = '550px';
+
+  const header = document.createElement('header');
+  header.className = 'window-header';
+  const titleEl = document.createElement('div');
+  titleEl.className = 'window-title';
+  const icon = document.createElement('img');
+  icon.src = 'assets/icons/icon-paint.svg';
+  icon.alt = 'Paint';
+  titleEl.append(icon, document.createTextNode('Paint'));
+  const controls = document.createElement('div');
+  controls.className = 'window-controls';
+  ['minimize', 'maximize', 'close'].forEach((action) => {
+    const btn = document.createElement('button');
+    btn.dataset.action = action;
+    btn.title = formatTitle(action);
+    controls.appendChild(btn);
+  });
+  header.append(titleEl, controls);
+  wrapper.appendChild(header);
+
+  const body = document.createElement('div');
+  body.className = 'window-body';
+  body.style.padding = '12px';
+  body.innerHTML = '<p style="text-align: center; padding-top: 100px; color: #999;">Paint application coming soon...</p>';
+  wrapper.appendChild(body);
+
+  const resizer = document.createElement('div');
+  resizer.className = 'window-resizer';
+  wrapper.appendChild(resizer);
+
+  positionWindow(wrapper);
+  enableDrag(wrapper, header);
+  enableResize(wrapper, resizer);
+
+  header.addEventListener('dblclick', (e) => {
+    const inControls = (node) => node && node.closest && node.closest('.window-controls');
+    if (inControls(e.target)) return;
+    const path = e.composedPath ? e.composedPath() : [];
+    if (path.some((el) => el && el.classList && el.classList.contains('window-controls'))) return;
+    toggleMaximize(wrapper);
+  });
+  
+  controls.addEventListener('dblclick', (event) => event.stopPropagation());
+  controls.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const button = event.target.closest('button');
+    if (!button) return;
+    const action = button.dataset.action;
+    if (action === 'close') {
+      closeWindow('paint');
+    } else if (action === 'minimize') {
+      minimizeWindow('paint');
+    } else if (action === 'maximize') {
+      toggleMaximize(wrapper);
+    }
+  });
+
+  wrapper.addEventListener('mousedown', () => focusWindow(wrapper, 'paint'));
+
+  return wrapper;
+}
+
+function addTaskbarItem(section, customTitle) {
   const existing = taskbarItems.querySelector(`[data-section="${section}"]`);
   if (existing) {
     existing.classList.add('active');
     return;
   }
-  const title = SECTION_TITLES[section] || formatTitle(section);
+  const title = customTitle || SECTION_TITLES[section] || formatTitle(section);
+  let iconSrc = SECTION_ICONS[section] || 'assets/icons/icon-folder.svg';
+  
+  // Handle app icons
+  if (section === 'notepad') iconSrc = 'assets/icons/icon-notepad.svg';
+  if (section === 'calculator') iconSrc = 'assets/icons/icon-calculator.svg';
+  if (section === 'paint') iconSrc = 'assets/icons/icon-paint.svg';
+  
   const button = document.createElement('button');
   button.className = 'taskbar-item active';
   button.dataset.section = section;
   button.innerHTML = `
-    <img src="${SECTION_ICONS[section] || 'assets/icons/icon-folder.svg'}" alt="${title}" />
+    <img src="${iconSrc}" alt="${title}" />
     <span>${title}</span>
   `;
   button.addEventListener('click', () => {
@@ -677,6 +1080,7 @@ function focusWindow(windowEl, section) {
 }
 
 function closeWindow(section) {
+  console.log('Closing window:', section);
   const windowEl = state.windows.get(section);
   if (!windowEl) return;
   windowEl.remove();
@@ -689,6 +1093,7 @@ function closeWindow(section) {
 }
 
 function minimizeWindow(section) {
+  console.log('Minimizing window:', section);
   const windowEl = state.windows.get(section);
   if (!windowEl) return;
   windowEl.classList.add('minimized');
@@ -740,6 +1145,7 @@ function enableDrag(windowEl, handle) {
 
   handle.addEventListener('pointerdown', (event) => {
     if (windowEl.classList.contains('maximized')) return;
+    if (event.target && event.target.closest && event.target.closest('.window-controls')) return;
     isDragging = true;
     startX = event.clientX;
     startY = event.clientY;
@@ -813,6 +1219,16 @@ function bindGlobalEvents() {
     }
   });
 
+  // Handle start menu extra apps (notepad, paint, calculator)
+  document.querySelectorAll('.start-extra').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      playClickSound();
+      const app = btn.dataset.app;
+      openApp(app);
+      toggleStartMenu(false);
+    });
+  });
+
   document.addEventListener('contextmenu', (event) => {
     if (!desktopEl.contains(event.target) || event.target.closest('.window') || event.target.closest('.taskbar')) {
       return;
@@ -846,6 +1262,7 @@ function bindGlobalEvents() {
 
   trayClock.addEventListener('click', (event) => {
     event.stopPropagation();
+    playClickSound();
     const open = calendarPopup.classList.contains('hidden');
     calendarPopup.classList.toggle('hidden');
     trayClock.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -934,6 +1351,32 @@ function renderProficiency(level) {
   return '★'.repeat(level || 0) + '☆'.repeat(Math.max(0, max - (level || 0)));
 }
 
+function getHighlightEmoji(text) {
+  const key = text.toLowerCase();
+  if (key.includes('python')) return '🐍';
+  if (key.includes('nlp')) return '🧠';
+  if (key.includes('information retrieval') || key.includes('ir')) return '🔎';
+  if (key.includes('llm')) return '🤖';
+  if (key.includes('rag')) return '📚';
+  if (key.includes('elasticsearch')) return '🧭';
+  if (key.includes('pytorch')) return '🔥';
+  if (key.includes('docker')) return '🐳';
+  if (key.includes('aws')) return '☁️';
+  return '⭐';
+}
+
+function getInterestEmoji(text) {
+  const key = text.toLowerCase();
+  if (key.includes('photo')) return '📷';
+  if (key.includes('hiking')) return '🥾';
+  if (key.includes('travel')) return '✈️';
+  if (key.includes('outdoor')) return '🌲';
+  if (key.includes('open source')) return '🧩';
+  if (key.includes('ai') || key.includes('machine')) return '🤖';
+  if (key.includes('nlp')) return '🔤';
+  return '⭐';
+}
+
 function handleLogin() {
   loginScreen.classList.remove('screen--active');
   welcomeScreen.classList.add('screen--active');
@@ -975,10 +1418,58 @@ function handleLogOff() {
   toggleStartMenu(false);
   const openSections = Array.from(state.windows.keys());
   openSections.forEach((key) => closeWindow(key));
+  playShutdownSound();
   state.offsets = 0;
   desktopEl.classList.add('hidden');
   welcomeScreen.classList.remove('screen--active');
   loginScreen.classList.add('screen--active');
+}
+
+function playShutdownSound() {
+  try {
+    const context = new (window.AudioContext || window.webkitAudioContext)();
+    const now = context.currentTime;
+    const notes = [
+      { time: 0, freq: 880 },
+      { time: 0.25, freq: 659.25 },
+      { time: 0.5, freq: 554.37 },
+      { time: 0.75, freq: 440 }
+    ];
+    notes.forEach(({ time, freq }) => {
+      const osc = context.createOscillator();
+      const gain = context.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.4, now + time);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + time + 0.45);
+      osc.connect(gain).connect(context.destination);
+      osc.start(now + time);
+      osc.stop(now + time + 0.5);
+    });
+  } catch (error) {
+    console.error('Audio playback failed:', error);
+  }
+}
+
+function playClickSound() {
+  try {
+    const context = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = context.createOscillator();
+    const gain = context.createGain();
+    const now = context.currentTime;
+  
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(400, now);
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.15, now + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+  
+    osc.connect(gain).connect(context.destination);
+    osc.start(now);
+    osc.stop(now + 0.15);
+  } catch (error) {
+    console.error('Audio playback failed:', error);
+  }
 }
 
 init();

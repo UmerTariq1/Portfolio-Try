@@ -15,7 +15,7 @@
 personal_info:
   name: "Umer Butt"
   title: "AI Software Engineer"
-  avatar: "images/me.jpg"
+  avatar: "images/me.png"
   location: "Germany"
 
 contact:
@@ -25,7 +25,7 @@ contact:
   github: "https://github.com/UmerTariq1"
   linkedin: "https://www.linkedin.com/in/umertariq1"
   scholar: "https://scholar.google.com/citations?user=rJY5sboAAAAJ&hl=en"
-  resume: "resources/Resume_Umer_Butt.pdf"
+  resume: "https://drive.google.com/file/d/108zb8ovyi2KighokoM0iLfBOu0unLFS4/view?usp=sharing"
 
 summary:
   - "As an AI engineer, I'm fascinated by the challenge of making sense of complex data. For over **5 years**, I've specialized in **NLP, Information Retrieval, Search and Recommendation**. My work has centered on creating intelligent, user-friendly solutions powered by **deep learning and LLMs**. I love turning a tricky problem/idea into a streamlined, effective application that just works."
@@ -481,17 +481,17 @@ photography:
     - src: "images/cool4.JPG"
       alt: "ship"
       caption: "A sailing boat"
-      location: "Unknown"
+      location: "Italy"
 
     - src: "images/cool5.JPG"
       alt: "sunset"
       caption: "Stunning sunset scene"
-      location: "Unknown"
+      location: "Viareggio, Italy"
 
     - src: "images/cool6.JPG"
       alt: "church"
       caption: "A church in the middle of the city"
-      location: "Unknown"
+      location: "Germany"
 
     - src: "images/lucca.JPG"
       alt: "lucca"
@@ -507,6 +507,11 @@ photography:
       alt: "beach"
       caption: "One of the beaches in Cinque Terre"
       location: "Cinque Terre, Italy"
+
+    - src: "images/me2.JPG"
+      alt: "me"
+      caption: "one of the finest beaches"
+      location: "Mmmm"
 
 interests:
   - "Photography"

@@ -1,5 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect x="4" y="18" width="56" height="34" rx="4" ry="4" fill="#f5d27f" stroke="#d09c3f" stroke-width="2"/>
-  <path d="M10 18l8-10h14l6 10z" fill="#ffe6a4" stroke="#d09c3f" stroke-width="2"/>
-  <rect x="8" y="24" width="48" height="24" rx="3" ry="3" fill="#fadd8c" stroke="#d09c3f" stroke-width="1.5"/>
+  <defs>
+    <linearGradient id="folderGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd966;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f4b942;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="folderLight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fff;stop-opacity:0.4" />
+      <stop offset="50%" style="stop-color:#fff;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#fff;stop-opacity:0" />
+    </linearGradient>
+  </defs>
+  <path d="M8 16 L8 52 C8 55 10 57 13 57 L51 57 C54 57 56 55 56 52 L56 24 C56 21 54 19 51 19 L32 19 L26 13 C25 12 24 11 22 11 L13 11 C10 11 8 13 8 16 Z" fill="url(#folderGrad)" stroke="#d4a237" stroke-width="1.5"/>
+  <path d="M8 16 L8 52 C8 55 10 57 13 57 L51 57 C54 57 56 55 56 52 L56 24 C56 21 54 19 51 19 L32 19 L26 13 C25 12 24 11 22 11 L13 11 C10 11 8 13 8 16 Z" fill="url(#folderLight)" stroke="none"/>
+  <ellipse cx="32" cy="20" rx="18" ry="4" fill="#fff" opacity="0.3"/>
 </svg>
