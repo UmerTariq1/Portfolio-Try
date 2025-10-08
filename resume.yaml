@@ -1,23 +1,14 @@
-# Resume configuration for the retro Windows portfolio desktop.
-# Update the values in each top-level key to refresh the corresponding window content.
-# Sections map 1:1 with desktop icons and Start menu entries, so adding/removing keys here
-# will automatically add/remove icons and windows when the site loads.
-#
-# Structure overview:
-# personal_info: metadata for the login screen, taskbar tooltip, and desktop icon avatar.
-# contact: links rendered in the Start menu and contact window.
-# summary: array of markdown-supporting bullet paragraphs for the "Summary" window.
-# highlights: short list of skills displayed under personal info.
-# experience/projects/education/publications: arrays of structured objects (see examples below).
-# skills: grouped proficiency lists; each group appears as its own section inside the skills window.
-# photography: toggleable gallery of images with captions.
-# interests: simple list of text items.
+# Resume Data for Umer Butt
+# AI Software Engineer Portfolio
+
+# Personal Information
 personal_info:
   name: "Umer Butt"
   title: "AI Software Engineer"
-  avatar: "images/me.png"
+  avatar: "images/me.jpg"
   location: "Germany"
 
+# Contact Information
 contact:
   email: "mumertbutt@gmail.com"
   phone: "+49 1577 3677 910"
@@ -25,8 +16,9 @@ contact:
   github: "https://github.com/UmerTariq1"
   linkedin: "https://www.linkedin.com/in/umertariq1"
   scholar: "https://scholar.google.com/citations?user=rJY5sboAAAAJ&hl=en"
-  resume: "https://drive.google.com/file/d/108zb8ovyi2KighokoM0iLfBOu0unLFS4/view?usp=sharing"
+  resume: "resources/Resume_Umer_Butt.pdf"
 
+# Professional Summary
 summary:
   - "As an AI engineer, I'm fascinated by the challenge of making sense of complex data. For over **5 years**, I've specialized in **NLP, Information Retrieval, Search and Recommendation**. My work has centered on creating intelligent, user-friendly solutions powered by **deep learning and LLMs**. I love turning a tricky problem/idea into a streamlined, effective application that just works."
   - "I seek to leverage deep learning and LLM expertise for impactful AI projects. You can explore some of my recent work, including an LLM-powered platform to enhance client support, in my work experience section."
@@ -35,6 +27,7 @@ summary:
   - "I've also had the opportunity to publish some of my work, which still feels a little surreal to be honest. I'm not entirely sure how it happened, but you can check out my publications for a deeper look at the work I've been a part of."
   - "Wondering if I actually know what I'm doing? My experience and education are here to convince you (or at least try)."
 
+# Key Skills Highlights
 highlights:
   - "Python"
   - "NLP"
@@ -46,6 +39,7 @@ highlights:
   - "Docker"
   - "AWS"
 
+# Work Experience
 experience:
   - company: "Sequire Technology GmbH"
     url: "https://sequire.de/"
@@ -130,6 +124,7 @@ experience:
       - "SQL"
       - "Software Engineering"
 
+# Projects
 projects:
   - name: "RAG LLM chatbot with external knowledge source"
     description: "Built a Retrieval-Augmented Generation chatbot using Llama3 and Hugging Face transformers with Streamlit interface"
@@ -213,6 +208,7 @@ projects:
         icon: "fab fa-solid fa-link"
         url: "https://umertariq1.github.io/Vector-Balls/"
 
+# Technical Skills
 skills:
   programming_languages:
     - name: "Python"
@@ -340,6 +336,7 @@ skills:
       level: 5
       proficiency: "Expert"
 
+# Education
 education:
   - degree: "Master's in Language Science and Technology"
     institution: "Saarland University"
@@ -366,6 +363,7 @@ education:
     honors:
       - "2nd position among 300 projects in university-wide competition"
 
+# Publications
 publications:
   - title: "Building the First IR Dataset and Baseline for Roman Urdu as a Low-Resource Language"
     venue: "RANLP @ LowResNLPT"
@@ -459,6 +457,7 @@ publications:
     abstract: null
     link: "https://www.researchgate.net/publication/354381634_Classic_Fairy_Tales_Children_Stories_of_the_World_Corpus_Organization_and_Text_Analytics"
 
+# Photography Portfolio
 photography:
   enabled: true
   description: "Some of the photos I've taken during my travels and outdoor adventures."
@@ -467,52 +466,48 @@ photography:
       alt: "lake"
       caption: "Serene lake in Pakistan."
       location: "Pakistan"
-
+      
     - src: "images/cool2.jpg"
       alt: "germany"
       caption: "Beautiful German landscape near Munich"
       location: "Germany"
-
+      
     - src: "images/cool3.jpg"
       alt: "water"
       caption: "Pedestrian bridge in a mountain valley in Pakistan"
       location: "Pakistan"
-
+      
     - src: "images/cool4.JPG"
       alt: "ship"
       caption: "A sailing boat"
-      location: "Italy"
-
+      location: "Unknown"
+      
     - src: "images/cool5.JPG"
       alt: "sunset"
       caption: "Stunning sunset scene"
-      location: "Viareggio, Italy"
-
+      location: "Unknown"
+      
     - src: "images/cool6.JPG"
       alt: "church"
       caption: "A church in the middle of the city"
-      location: "Germany"
-
+      location: "Unknown"
+      
     - src: "images/lucca.JPG"
       alt: "lucca"
       caption: "A street in Lucca, Italy"
       location: "Lucca, Italy"
-
+      
     - src: "images/frank.JPG"
       alt: "frankfurt"
       caption: "In the middle of the Frankfurt"
       location: "Frankfurt, Germany"
-
+      
     - src: "images/beach.JPG"
       alt: "beach"
       caption: "One of the beaches in Cinque Terre"
       location: "Cinque Terre, Italy"
 
-    # - src: "images/me2.JPG"
-    #   alt: "me"
-    #   caption: "one of the finest beaches"
-    #   location: "Mmmm"
-
+# Interests and Hobbies
 interests:
   - "Photography"
   - "Hiking"
@@ -522,3 +517,4 @@ interests:
   - "Open Source Projects"
   - "Machine Learning"
   - "Natural Language Processing"
+

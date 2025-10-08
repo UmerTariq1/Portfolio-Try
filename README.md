@@ -1,71 +1,154 @@
-# Retro Windows Portfolio
+# Umer Butt - AI Engineer Portfolio
 
-This is the project implementation of my portfolio website. The entire desktop experience – login animation, Bliss wallpaper, draggable explorer windows, Start menu, taskbar clock, and context menu, is generated from a single YAML data file so it can be deployed as a static site (e.g., GitHub Pages).
+A modern, responsive portfolio website showcasing my experience as an AI Engineer specializing in NLP and Information Retrieval. Built as a single HTML file with embedded YAML data for easy maintenance.
 
-## Project structure
+## ✨ Features
+
+- **Single File Architecture**: Complete portfolio in one `index.html` file
+- **Responsive Design**: Beautiful layout that adapts to desktop, tablet, and mobile
+- **YAML-Driven Content**: All resume data embedded as YAML for easy updates
+- **Modern UI**: Clean, minimal design with smooth animations and transitions
+- **Tab Navigation**: Organized sections for Summary, Experience, Projects, Skills, Education, and Publications
+- **Mobile-First**: Off-canvas sidebar navigation for mobile devices
+- **Accessible**: Built with accessibility best practices
+
+## 🛠️ Technology Stack
+
+- **HTML5**: Semantic markup and structure
+- **Tailwind CSS**: Utility-first CSS framework via CDN
+- **Vanilla JavaScript**: No frameworks, pure JS for functionality
+- **js-yaml**: YAML parser for dynamic content rendering
+- **Font Awesome**: Icon library for UI elements
+
+## 📁 Project Structure
 
 ```
-index.html               # App shell and initial screens
-assets/css/style.css     # Retro Windows theming and layout rules
-assets/js/app.js         # Desktop runtime + lightweight YAML parser
-assets/data/resume.yaml  # Primary source of truth for all portfolio content
-assets/icons/            # Custom Windows-style SVG icons
-assets/images/           # Wallpaper illustration
-images/, resources/      # Media referenced from the YAML file
+UmerTariq1.github.io/
+├── index.html              # Main portfolio file
+├── profile.yml             # Source resume data
+├── images/                 # Profile and project images
+│   ├── me.jpg             # Profile photo
+│   ├── favicon.ico        # Site favicon
+│   └── ...                # Other images
+├── resources/              # Additional resources
+│   └── Resume_Umer_Butt.pdf
+└── README.md              # This file
 ```
 
-### YAML data contract
+## 🧭 Configuration & Recent Improvements
 
-`assets/data/resume.yaml` is the only file you need to edit to refresh portfolio content. Each top-level key spawns both a desktop icon and a Start menu shortcut. The parser in `app.js` supports the following sections:
+- **Social icons**: Uses Font Awesome via CDN. Links are rendered through the `buttonLink` helper in `index.html` which prepends icons, adds accessible labels, and ensures visible focus states. Footer now includes GitHub and LinkedIn links.
+- **Sidebar order**: Controlled by a single `NAV_ITEMS` array in `index.html` (Tabs & Navigation section). The sidebar is generated from this array, and `TABS` is derived from it.
+- **Skills progress bars**: Levels are defined in the embedded `RESUME_YAML` under `skills.items[].level` (0–5). The progress bars animate on first render and expose `role="progressbar"` with proper ARIA attributes.
+- **Mobile sidebar toggle**: Visibility ensured by raising the mobile header z-index (now `z-50`). The button has appropriate ARIA attributes and keyboard focus styles.
 
-- `personal_info`: name, title, avatar path, and location.
-- `contact`: key/value pairs that render as contact links (email/phone get automatic `mailto:`/`tel:` prefixes).
-- `summary`: array of markdown-friendly paragraphs for the Summary window.
-- `highlights`: quick bullet list of focus areas.
-- `experience`, `projects`, `education`, `publications`: arrays of objects with nested lists (achievements, links, stacks, etc.).
-- `skills`: grouped proficiencies; each group name becomes a heading and entries include `name`, `level` (1-5), and `proficiency` text.
-- `photography`: toggleable gallery (`enabled: true/false`), description, and image metadata.
-- `interests`: simple array of interests.
+## 🚀 Usage
 
-Feel free to add, remove, or rename sections – the desktop updates automatically as long as the YAML indentation is consistent.
+### Viewing the Portfolio
+1. Open `index.html` in any modern web browser
+2. Navigate through sections using the sidebar tabs
+3. On mobile, use the hamburger menu to access navigation
 
+### Updating Content
+1. Edit the `RESUME_YAML` string in `index.html` (lines 253-574)
+2. Follow the YAML structure for:
+   - Personal information (name, title, contact)
+   - Work experience
+   - Projects
+   - Skills (with proficiency levels)
+   - Education
+   - Publications
 
-## Features
+### YAML Structure Example
+```yaml
+name: Your Name
+title: Your Title
+contact:
+  email: your@email.com
+  github: https://github.com/username
+  linkedin: https://linkedin.com/in/username
 
-- **Windows 7-style login screen** with glassmorphism effect, faux boot animation, and synthesized start-up sound
-- **Authentic Aero-styled icons** with gradients and glossy effects for all sections
-- **Fully functional desktop**:
-  - Single-click to open desktop icons
-  - Draggable, resizable, and scrollable explorer windows with proper size constraints
-  - Window control buttons (minimize, maximize, close) work on all windows
-  - Windows stay within screen bounds
-- **Built-in applications**:
-  - **Notepad** - functional text editor with resizable window
-  - **Calculator** - working calculator with basic operations (+, -, *, /)
-  - **Paint** - placeholder for future implementation
-- **Enhanced taskbar**:
-  - Polished Start button with hover effects
-  - Live-updating clock with calendar popup
-  - Window previews and taskbar buttons for all open windows
-- **Start menu** with classic two-column layout, contact links, and Log Off action
-- **Desktop context menu** (Refresh, Properties, Personalize)
-- **Custom scrollbars** styled to match Windows 7 Aero theme
-- **Lightweight JavaScript YAML parser** - zero external dependencies, works completely offline
-- **Fully responsive** with graceful mobile degradation
+experience:
+  - company: Company Name
+    role: Job Title
+    start: Jan 2023
+    end: Present
+    summary: Brief description
+    achievements:
+      - Achievement 1
+      - Achievement 2
+    stack:
+      - Technology 1
+      - Technology 2
+```
 
-## Customisation tips
+## 📄 Changes Log
 
-- Replace the placeholder images inside `/images` with your actual photos/avatars while keeping the same filenames (or update the YAML paths).
-- Update `resources/Resume_Umer_Butt.pdf` with your CV export to keep the Start menu shortcut valid.
-- Edit or extend the YAML file to surface additional sections – icons and Start menu links are generated automatically.
-- Customize the Aero-style icons in `assets/icons/` - they're all SVG files with gradient definitions.
-- Adjust window sizes by modifying the `width` and `height` in `buildWindow()` function in `app.js`.
-- Tweak the color scheme by modifying CSS custom properties in `style.css` (look for `:root`).
+See `docs/changes.md` for a concise summary of recent improvements and where to configure them.
 
-## Browser Compatibility
+## 🎨 Design Features
 
-Works best in modern browsers (Chrome, Firefox, Safari, Edge). Features used:
-- CSS Grid and Flexbox for layouts
-- CSS custom properties (CSS variables)
-- Modern ES6+ JavaScript (async/await, arrow functions, template literals)
-- Web Audio API for startup sound
+- **Color Scheme**: Monochromatic with accent green (#10b981)
+- **Typography**: Clean, readable fonts with proper hierarchy
+- **Animations**: Subtle hover effects and smooth transitions
+- **Cards**: Rounded corners and soft shadows for content sections
+- **Responsive Grid**: Adaptive layouts for different screen sizes
+
+## 📱 Responsive Behavior
+
+- **Desktop (>1024px)**: Two-column layout with fixed sidebar
+- **Tablet (768px-1024px)**: Single column with collapsible sidebar
+- **Mobile (<768px)**: Single column with off-canvas navigation
+
+## 🔧 Customization
+
+### Colors
+Modify the accent color in the Tailwind config (lines 17-28):
+```javascript
+accent: {
+  500: '#10b981', // Main accent color
+  // ... other shades
+}
+```
+
+### Styling
+- Update CSS classes in the HTML structure
+- Modify Tailwind utilities for layout changes
+- Adjust animation timing in the `<style>` section
+
+### Content
+- Add/remove sections by updating the `TABS` array (line 879)
+- Modify renderer functions for different data structures
+- Update navigation icons and labels
+
+## 📄 Sections
+
+1. **Summary**: Personal introduction with contact links
+2. **Experience**: Work history with achievements and tech stack
+3. **Projects**: Portfolio projects with technologies and links
+4. **Skills**: Categorized skills with proficiency levels
+5. **Education**: Academic background and achievements
+6. **Publications**: Research papers and publications
+
+## 🌟 Key Features
+
+- **No Build Process**: Direct HTML file deployment
+- **Self-Contained**: All dependencies via CDN
+- **Fast Loading**: Minimal external resources
+- **SEO Friendly**: Semantic HTML and meta tags
+- **Print Ready**: Clean layout for PDF generation
+
+## 📞 Contact
+
+- **Email**: mumertbutt@gmail.com
+- **LinkedIn**: [umertariq1](https://www.linkedin.com/in/umertariq1)
+- **GitHub**: [UmerTariq1](https://github.com/UmerTariq1)
+- **Website**: [umertariq1.github.io](https://umertariq1.github.io)
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+Built with ❤️ using Tailwind CSS, YAML, and vanilla JavaScript.

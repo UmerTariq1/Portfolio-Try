@@ -1,107 +1,1117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Umer Butt · Retro Windows Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <link rel="icon" type="image/png" href="assets/icons/favicon.png" />
-  <link rel="shortcut icon" href="assets/icons/favicon.png" />
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Umer Tariq — Portfolio</title>
+	<meta name="description" content="A modern, responsive, YAML-driven portfolio and resume for Umer Tariq." />
+	<link rel="icon" href="images/favicon.ico" />
+
+	<!-- Tailwind config (before CDN) -->
+	<script>
+		window.tailwind = window.tailwind || {};
+		tailwind.config = {
+			theme: {
+				extend: {
+					colors: {
+						accent: {
+							50: '#ecfdf5',
+							100: '#d1fae5',
+							200: '#a7f3d0',
+							300: '#6ee7b7',
+							400: '#34d399',
+							500: '#10b981',
+							600: '#059669',
+							700: '#047857',
+							800: '#065f46',
+							900: '#064e3b'
+						}
+					},
+					boxShadow: {
+						smooth: '0 20px 25px -5px rgb(0 0 0 / 0.06), 0 8px 10px -6px rgb(0 0 0 / 0.06)'
+					}
+				}
+			},
+			darkMode: 'class'
+		};
+	</script>
+
+	<!-- Tailwind CSS CDN -->
+	<script src="https://cdn.tailwindcss.com"></script>
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- js-yaml -->
+	<script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+
+	<style>
+		/***** Minimal extras for graceful motion *****/
+		.card-enter {
+			opacity: 0;
+			transform: translateY(6px) scale(0.995);
+		}
+		.card-enter-active {
+			opacity: 1;
+			transform: translateY(0) scale(1);
+			transition: opacity 400ms ease, transform 400ms ease;
+		}
+		.fade-enter {
+			opacity: 0;
+		}
+		.fade-enter-active {
+			opacity: 1;
+			transition: opacity 350ms ease;
+		}
+	</style>
 </head>
-<body>
-  <div id="login-screen" class="screen screen--active">
-    <div class="login-panel">
-      <img class="login-avatar" src="images/me.png" alt="Login avatar" id="login-avatar" />
-      <div class="login-username" id="login-username">User</div>
-      <button class="login-button" id="login-button">Log In</button>
-    </div>
-  </div>
+<body class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 text-gray-800 antialiased">
+	<!-- Mobile top bar -->
+	<header class="sticky top-0 z-50 lg:hidden bg-white/90 backdrop-blur border-b border-gray-100">
+		<div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+			<div class="flex items-center gap-3">
+				<div class="h-9 w-9 rounded-xl bg-accent-600 text-white grid place-items-center shadow-smooth">
+					<i class="fas fa-feather"></i>
+				</div>
+				<div>
+					<p class="text-sm text-gray-500 leading-tight">Portfolio</p>
+					<h1 class="text-base font-semibold tracking-tight">Umer Tariq</h1>
+				</div>
+			</div>
+			<button id="openSidebar" class="inline-flex items-center justify-center h-10 w-10 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent-500" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">
+				<i class="fas fa-bars text-gray-700"></i>
+			</button>
+		</div>
+	</header>
 
-  <div id="welcome-screen" class="screen">
-    <div class="welcome-panel">
-      <div class="welcome-spinner"></div>
-      <p>Welcome</p>
-    </div>
-  </div>
+	<!-- Off-canvas overlay -->
+	<div id="overlay" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden"></div>
 
-  <div id="desktop" class="hidden">
-    <div class="wallpaper" style="background-image: url('assets/images/wallpaper.svg');"></div>
+	<!-- Sidebar -->
+	<aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-80 -translate-x-full lg:translate-x-0 lg:fixed lg:w-72 bg-white/95 backdrop-blur border-r border-gray-100 shadow-smooth lg:shadow-none transition-transform duration-300 will-change-transform">
+		<div class="h-full flex flex-col">
+			<!-- Sidebar header -->
+			<div class="px-5 pt-5 pb-4 border-b border-gray-100">
+				<div class="flex items-center justify-between">
+					<div class="flex items-center gap-3">
+						<img id="avatar" src="images/me.jpg" alt="Profile photo" class="h-12 w-12 rounded-2xl object-cover ring-2 ring-white shadow-smooth" />
+						<div>
+							<h2 id="sidebarName" class="text-lg font-semibold leading-tight">Umer Tariq</h2>
+							<p id="sidebarTitle" class="text-sm text-gray-500">Software Engineer</p>
+						</div>
+					</div>
+					<button id="closeSidebar" class="lg:hidden inline-flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent-500" aria-label="Close menu">
+						<i class="fas fa-times text-gray-700"></i>
+					</button>
+				</div>
 
-    <div id="desktop-icons" class="desktop-icons" role="group" aria-label="Desktop icons"></div>
+				<div id="quickLinks" class="mt-4 flex flex-wrap gap-2"></div>
+			</div>
 
-    <div id="context-menu" class="context-menu hidden" role="menu">
-      <button data-action="refresh">Refresh</button>
-      <button data-action="properties">About Me</button>
-      <button data-action="personalize">See Cool Places</button>
-    </div>
+			<!-- Navigation -->
+			<nav id="sidebarNav" class="p-4 space-y-1 overflow-y-auto" aria-label="Section navigation"></nav>
 
-    <div id="windows-layer" class="windows-layer" aria-live="polite"></div>
+			<!-- Sidebar footer -->
+			<div class="mt-auto p-4 border-t border-gray-100">
+				<p class="text-xs text-gray-500">Built with ❤️ using Tailwind, YAML, and vanilla JS.</p>
+			</div>
+		</div>
+	</aside>
 
-    <div id="start-menu" class="start-menu hidden" role="dialog" aria-modal="false">
-      <div class="start-menu__left">
-        <h2>Programs</h2>
-        <ul id="start-menu-programs"></ul>
-        <div class="start-menu__extras">
-          <button class="start-extra" data-app="notepad">
-            <img src="assets/icons/icon-notepad.svg" alt="Notepad icon" />
-            <span>Notepad</span>
-          </button>
-          <button class="start-extra" data-app="paint">
-            <img src="assets/icons/icon-paint.svg" alt="Paint icon" />
-            <span>Paint</span>
-          </button>
-          <button class="start-extra" data-app="calculator">
-            <img src="assets/icons/icon-calculator.svg" alt="Calculator icon" />
-            <span>Calculator</span>
-          </button>
-        </div>
-      </div>
-      <div class="start-menu__right">
-        <section>
-          <h3>Contact</h3>
-          <ul id="start-menu-contact"></ul>
-        </section>
-        <section class="start-menu__power">
-          <button id="log-off-button">
-            <img src="assets/icons/icon-power.svg" alt="Power icon" />
-            <span>Log Off</span>
-          </button>
-        </section>
-      </div>
-    </div>
+	<!-- Main content -->
+	<main class="lg:ml-72">
+		<!-- Header band (desktop) -->
+		<section class="hidden lg:block">
+			<div class="max-w-7xl mx-auto px-8 pt-10 pb-4">
+				<div class="flex items-center justify-between">
+					<div>
+						<p class="text-sm text-gray-500">Portfolio</p>
+						<h1 id="heroName" class="text-2xl font-semibold tracking-tight">Umer Tariq</h1>
+						<p id="heroTitle" class="text-gray-500 mt-1">Software Engineer</p>
+					</div>
+					<div id="heroActions" class="flex items-center gap-2"></div>
+				</div>
+			</div>
+		</section>
 
-    <div id="calendar-popup" class="calendar-popup hidden" role="dialog" aria-modal="false">
-      <header>
-        <img src="assets/icons/icon-calendar.svg" alt="Calendar icon" />
-        <div>
-          <p class="calendar-date"></p>
-          <p class="calendar-time"></p>
-        </div>
-      </header>
-      <div class="calendar-grid" id="calendar-grid"></div>
-    </div>
+		<!-- Panels -->
+		<section id="panel-container" class="max-w-4xl mx-auto px-4 py-6 md:py-10 space-y-6">
+			<!-- Summary -->
+			<div id="panel-summary" class="panel">
+				<div class="rounded-2xl bg-white shadow-smooth border border-gray-100">
+					<div class="p-6 md:p-8">
+						<div class="flex flex-col md:flex-row md:items-center gap-6">
+							<img id="summaryAvatar" src="images/me.jpg" alt="Profile photo" class="h-28 w-28 rounded-2xl object-cover ring-2 ring-white shadow-smooth" />
+							<div class="flex-1">
+								<h2 class="text-2xl md:text-3xl font-semibold tracking-tight">Hello, I'm <span class="text-accent-700">Umer</span> 👋</h2>
+								<p id="summaryRole" class="text-gray-600 mt-2">Software Engineer crafting minimal, elegant web experiences.</p>
+								<div id="summaryHighlights" class="mt-4 flex flex-wrap gap-2"></div>
+								<div id="summaryActions" class="mt-6 flex flex-wrap items-center gap-2"></div>
+							</div>
+						</div>
+						<div id="summaryText" class="mt-8 grid gap-4"></div>
+					</div>
+				</div>
+			</div>
 
-    <footer id="taskbar" class="taskbar" role="toolbar" aria-label="Taskbar">
-      <button id="start-button" class="start-button" aria-haspopup="true" aria-expanded="false">
-        <img src="assets/icons/icon-start.svg" alt="Windows Start" />
-      </button>
-      <div id="taskbar-items" class="taskbar-items" role="tablist"></div>
-      <div class="taskbar-tray">
-        <div class="tray-icons">
-          <span class="tray-icon" aria-label="Volume">🔊</span>
-          <span class="tray-icon" aria-label="Battery">🔋</span>
-        </div>
-        <button id="tray-clock" class="tray-clock" aria-haspopup="true" aria-expanded="false">
-          <span class="tray-time">--:--</span>
-          <span class="tray-date">--/--</span>
-        </button>
-      </div>
-    </footer>
-  </div>
+			<!-- Experience -->
+			<div id="panel-experience" class="panel hidden">
+				<div class="rounded-2xl bg-white shadow-smooth border border-gray-100">
+					<div class="p-6 md:p-8">
+						<h2 class="text-xl md:text-2xl font-semibold tracking-tight">Work Experience</h2>
+						<div id="experienceList" class="mt-6 space-y-6"></div>
+					</div>
+				</div>
+			</div>
 
-  <script src="assets/js/app.js" type="module"></script>
+			<!-- Projects -->
+			<div id="panel-projects" class="panel hidden">
+				<div class="rounded-2xl bg-white shadow-smooth border border-gray-100">
+					<div class="p-6 md:p-8">
+						<h2 class="text-xl md:text-2xl font-semibold tracking-tight">Projects</h2>
+						<div id="projectsGrid" class="mt-6 grid sm:grid-cols-2 gap-5"></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Skills -->
+			<div id="panel-skills" class="panel hidden">
+				<div class="rounded-2xl bg-white shadow-smooth border border-gray-100">
+					<div class="p-6 md:p-8">
+						<h2 class="text-xl md:text-2xl font-semibold tracking-tight">Skills</h2>
+						<div id="skillsGrid" class="mt-6 grid md:grid-cols-2 gap-5"></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Education -->
+			<div id="panel-education" class="panel hidden">
+				<div class="rounded-2xl bg-white shadow-smooth border border-gray-100">
+					<div class="p-6 md:p-8">
+						<h2 class="text-xl md:text-2xl font-semibold tracking-tight">Education</h2>
+						<div id="educationList" class="mt-6 space-y-5"></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Publications -->
+			<div id="panel-publications" class="panel hidden">
+				<div class="rounded-2xl bg-white shadow-smooth border border-gray-100">
+					<div class="p-6 md:p-8">
+						<h2 class="text-xl md:text-2xl font-semibold tracking-tight">Publications</h2>
+						<div id="publicationsList" class="mt-6 space-y-4"></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Photography -->
+			<div id="panel-photography" class="panel hidden">
+				<div class="rounded-2xl bg-white shadow-smooth border border-gray-100">
+					<div class="p-6 md:p-8">
+						<h2 class="text-xl md:text-2xl font-semibold tracking-tight">Photography</h2>
+						<p class="text-gray-600 mt-2 mb-6">Some of the photos I've taken.</p>
+						<div id="photographyGrid" class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="pb-10">
+			<div class="max-w-4xl mx-auto px-4 mt-8 text-sm text-gray-500">
+				<p>&copy; <span id="year"></span> <span id="footerName">Umer Tariq</span>. All rights reserved.</p>
+				<div id="footerSocial" class="mt-3 flex items-center gap-2"></div>
+			</div>
+		</footer>
+	</main>
+
+	<!-- YAML resume data as a JavaScript string -->
+	<script>
+		const RESUME_YAML = `
+name: Umer Butt
+title: AI Software Engineer
+avatar: images/me.jpg
+location: Germany
+contact:
+  email: mumertbutt@gmail.com
+  phone: "+49 1577 3677 910"
+  website: https://umertariq1.github.io
+  github: https://github.com/UmerTariq1
+  linkedin: https://www.linkedin.com/in/umertariq1
+  scholar: https://scholar.google.com/citations?user=rJY5sboAAAAJ&hl=en
+  resume: resources/Resume_Umer_Butt.pdf
+summary:
+  - As an AI engineer, I'm fascinated by the challenge of making sense of complex data. For over <strong>5 years</strong>, I've specialized in <strong>NLP, Information Retrieval, Search and Recommendation</strong>. My work has centered on creating intelligent, user-friendly solutions powered by <strong>deep learning and LLMs</strong>. I love turning a tricky problem/idea into a streamlined, effective application that just works. Check out some of my skills in the <a href="#skills" class="text-blue-500 hover:text-blue-600 font-medium">skills</a> section.
+  - I seek to leverage deep learning and LLM expertise for impactful AI projects. You can explore some of my recent work, including an LLM-powered platform to enhance client support, in my <a href="#experience" class="text-blue-500 hover:text-blue-600 font-medium">work experience</a> section.
+  - When I'm not immersed in the world of AI, you'll find me exploring the outdoors. I'm an avid hiker and photographer, often capturing the landscapes of the beautiful places I visit. Check out some of my photography in the <a href="#photography" class="text-blue-500 hover:text-blue-600 font-medium">photography</a> section.
+  - And when I need to unwind my nerdiness, I do side projects. Check out some of my personal <a href="#projects" class="text-blue-500 hover:text-blue-600 font-medium">projects</a>.
+  - I've also had the opportunity to publish some of my work, which still feels a little surreal to be honest. I'm not entirely sure how it happened, but you can check out my <a href="#publications" class="text-blue-500 hover:text-blue-600 font-medium">publications</a> for a deeper look at the work I've been a part of.
+  - - Wondering if I actually know what I’m doing? My <a href="#work-experience" class="text-blue-500 hover:text-blue-600 font-medium">experience</a> and <a href="#education" class="text-blue-500 hover:text-blue-600 font-medium">education</a> are here to convince you (or at least try).
+highlights:
+  - Python
+  - NLP
+  - Information Retrieval
+  - LLMs
+  - RAG
+  - Elasticsearch
+  - PyTorch
+  - Docker
+  - AWS
+experience:
+  - company: Sequire Technology GmbH
+    url: https://sequire.de/
+    role: AI Software Engineer
+    location: Germany
+    start: Aug 2025
+    end: Present
+    summary: R&D on LLM security; built RAG applications with local and cloud LLMs.
+    achievements:
+      - Conducted pen testing for LLM vulnerabilities, harmfulness, and toxicity.
+      - Developed and implemented a Retrieval-Augmented Generation (RAG) application with local and API LLMs.
+    stack:
+      - Python
+      - LLMs
+      - RAG
+      - LangChain
+      - Docker
+  - company: IMC AG
+    url: https://www.scheer-imc.com/de/
+    role: AI Software Developer (Werkstudent)
+    location: Saarbrucken, Germany
+    start: Jan 2025
+    end: Jun 2025
+    summary: Led LLM-powered IR platform for client support workflows.
+    achievements:
+      - Built an LLM-powered IR platform using Python, React, Docker, and Grafana for search and monitoring.
+      - Developed and deployed an AI-powered solution draft generator and a local LLM-based effort estimation module, which streamlined ticket resolve and provided new clients with informed project projections.
+    stack:
+      - Python
+      - React
+      - Docker
+      - Grafana
+  - company: DFKI
+    url: https://www.dfki.de/web
+    role: AI Research Assistant
+    location: Saarbrucken, Germany
+    start: Apr 2022
+    end: Dec 2024
+    summary: Delivered NLP automation and student-assistant RAG systems for enterprises.
+    achievements:
+      - Built NLP automation processing 1000+ documents for clients including Siemens and Beko.
+      - Designed an AI-powered student assistant using RAG, LLMs, and OpenAI API.
+      - Collaborated on scalable model deployment pipelines.
+    stack:
+      - NLP
+      - RAG
+      - OpenAI API
+      - Python
+  - company: Love For Data
+    url: https://www.lovefordata.com/
+    role: AI Engineer
+    location: Pakistan
+    start: Dec 2020
+    end: Sep 2021
+    summary: Delivered banking IR and query recommendation systems.
+    achievements:
+      - Built IR system for 10,000+ regulations with 34% relevance improvement using statistical and transformer models.
+      - Implemented query recommendation via document clustering and NER, improving accuracy by 45% and precision by 30%.
+      - Integrated Elasticsearch for indexing and real-time retrieval.
+    stack:
+      - Elasticsearch
+      - Transformers
+      - Python
+      - NER
+      - Clustering
+  - company: Systems Limited
+    url: https://www.systemsltd.com/PK
+    role: Software Engineer
+    location: Pakistan
+    start: Jun 2019
+    end: Nov 2020
+    summary: Led multiple projects improving performance and recommendations.
+    achievements:
+      - Supervised a team across customer offer promotion and delivery systems.
+      - Achieved 28% performance improvement and 7% reduction in false recommendations.
+    stack:
+      - Java
+      - SQL
+      - Software Engineering
+projects:
+  - name: RAG LLM chatbot with external knowledge source
+    tags:
+      - Python
+      - Llama3
+      - Hugging Face
+      - Streamlit
+    links:
+      - label: GitHub
+        icon: fab fa-github
+        url: https://github.com/UmerTariq1
+  - name: Graph-based Cloud Troubleshooting RAG Assistant
+    tags:
+      - Neo4j
+      - Llama3
+      - LangChain
+      - Streamlit
+    links:
+      - label: GitHub
+        icon: fab fa-github
+        url: https://github.com/UmerTariq1
+  - name: AI Tool for Digital Persona Classification from Social Data
+    tags:
+      - Python
+      - Transformers
+      - Streamlit
+      - OpenAI
+      - SpaCy
+    links:
+      - label: GitHub
+        icon: fab fa-github
+        url: https://github.com/UmerTariq1
+  - name: Deep IR System Using Context-Aware Vector Representations
+    tags:
+      - FAISS
+      - LSTM
+      - BERT
+      - Elasticsearch
+  - name: Time Series Analysis on Solar Energy Dataset
+    tags:
+      - EDA
+      - ARIMA
+      - SARIMA
+      - NumPy
+      - Pandas
+  - name: Lyrics Generator using LLMs and its website
+    tags:
+      - Python
+      - OpenAI API
+      - Langchain
+      - Angular
+      - Django
+    links:
+      - label: GitHub
+        icon: fab fa-github
+        url: https://github.com/UmerTariq1/Lyrics-Analysis-and-Generation
+  - name: Vector Balls A Dynamic Physics-Based Survival Game
+    tags:
+      - HTML
+      - JavaScript
+      - Python
+      - PyGame
+    links:
+      - label: GitHub
+        icon: fab fa-github
+        url: https://github.com/UmerTariq1/Vector-Balls
+      - label: Website
+        icon: fab fa-solid fa-link
+        url: https://umertariq1.github.io/Vector-Balls/
+
+skills:
+  - category: Languages
+    items:
+      - name: Python
+        level: 5
+      - name: Java
+        level: 4
+      - name: JavaScript
+        level: 4
+      - name: SQL
+        level: 4
+      - name: C++
+        level: 3
+      - name: HTML
+        level: 3
+      - name: CSS
+        level: 3
+      - name: NoSQL
+        level: 3
+  - category: Frameworks & Libraries
+    items:
+      - name: Pandas
+        level: 5
+      - name: PyTorch
+        level: 4
+      - name: Hugging Face
+        level: 4
+      - name: Scikit-learn
+        level: 4
+      - name: SpaCy
+        level: 4
+      - name: TensorFlow
+        level: 3
+  - category: AI & NLP Tools
+    items:
+      - name: RAG
+        level: 5
+      - name: OpenAI API
+        level: 5
+      - name: Transformers
+        level: 5
+      - name: Vector Search
+        level: 5
+      - name: FAISS
+        level: 5
+      - name: Elasticsearch
+        level: 5
+      - name: LangChain
+        level: 4
+  - category: Infrastructure & DevOps
+    items:
+      - name: Git/GitHub
+        level: 4
+      - name: Docker
+        level: 4
+      - name: CI/CD
+        level: 4
+      - name: Data Pipelines
+        level: 4
+      - name: UNIX/Linux
+        level: 4
+      - name: AWS
+        level: 3
+      - name: GCP
+        level: 3
+  - category: Development Practices
+    items:
+      - name: Agile
+        level: 5
+      - name: Clean Code
+        level: 5
+      - name: Experiment Tracking
+        level: 5
+      - name: Model Evaluation
+        level: 5
+      - name: Data Logging
+        level: 5
+  - category: Soft Skills
+    items:
+      - name: Communication
+        level: 5
+      - name: Problem-solving
+        level: 5
+      - name: Adaptability
+        level: 5
+      - name: Ownership
+        level: 5
+      - name: Collaboration
+        level: 5
+education:
+  - degree: Master's in Language Science and Technology
+    institution: Saarland University
+    url: https://www.uni-saarland.de/en/home.html
+    location: Saarbrucken, Germany
+    start: 2021
+    end: 2025
+    details:
+      - Created datasets for Urdu and Roman Urdu IR with MT model.
+      - Built a transformer-based transliteration pipeline.
+  - degree: Bachelor's in Computer Science
+    institution: FAST NUCES
+    url: https://khi.nu.edu.pk/
+    location: Pakistan
+    start: 2015
+    end: 2019
+    details:
+      - Implemented a neural-based IR system with Elasticsearch, FAISS, and embeddings from Word2Vec, LSTM, and BERT.
+      - Achieved 2nd position among 300 projects in a university-wide competition.
+publications:
+  - title: "Building the First IR Dataset and Baseline for Roman Urdu as a Low-Resource Language"
+    venue: RANLP @ LowResNLPT
+    year: 2025
+    authors:
+      - Umer Butt
+      - S. Varanasi
+      - G. Neumann
+  - title: "AIDEN: Automatic Speaker Notes Creation and Navigation for Enhancing Online Learning Experience"
+    venue: RANLP
+    year: 2025
+    authors:
+      - S. Varanasi
+      - Umer Butt
+      - G. Neumann
+      - Josef van Genabith
+  - title: "Low-Resource Transliteration for Roman-Urdu and Urdu Using Transformer-Based Models"
+    venue: NAACL @ LoResMT
+    year: 2025
+    link: "https://aclanthology.org/2025.loresmt-1.13/"
+    authors:
+      - Umer Butt
+      - S. Varanasi
+      - G. Neumann
+  - title: "Enabling Low-Resource Language Retrieval: Establishing Baselines for Urdu MS MARCO"
+    venue: ECIR
+    year: 2024
+    link: "https://arxiv.org/abs/2412.12997"
+    authors:
+      - Umer Butt
+      - S. Varanasi
+      - G. Neumann
+  - title: "Cross-Linguistic Processing of Non-Compositional Expressions in Slavic Languages"
+    venue: Cog-Alex
+    year: 2024
+    link: "https://aclanthology.org/2024.cogalex-1.10/"
+    authors:
+      - I. Zaitova
+      - I. Stenger
+      - Umer Butt
+      - T. Avgustinova
+  - title: "Spatial-Economic Analysis for Optimal Electric Vehicle Charging Station Placement"
+    venue: SASI-ITE
+    year: 2024
+    link: "https://ieeexplore.ieee.org/abstract/document/10607132"
+    authors:
+      - A. Maurya
+      - C. Agnes
+      - B. Baloch
+      - S. Anwari
+      - Umer Butt
+    note: equal contribution
+  - title: "AutoQIR: Auto-Encoding Questions with Retrieval Augmented Decoding for Unsupervised Passage Retrieval and Zero-shot Question Generation"
+    venue: RANLP
+    year: 2023
+    link: "https://aclanthology.org/2023.ranlp-1.124.pdf"
+    authors:
+      - S. Varanasi
+      - Umer Butt
+      - G. Neumann
+  - title: "Fairy Tales / Children Stories of the World: Corpus Organization and Text Analytics"
+    venue: ICLAP
+    year: 2021
+    link: "https://www.researchgate.net/publication/354381634_Classic_Fairy_Tales_Children_Stories_of_the_World_Corpus_Organization_and_Text_Analytics"
+    authors:
+      - Y. Khan
+      - Umer Butt
+`;
+
+		/* ---------- Utilities ---------- */
+		const qs = (sel, el = document) => el.querySelector(sel);
+		const qsa = (sel, el = document) => Array.from(el.querySelectorAll(sel));
+		const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
+		const create = (tag, className, text) => {
+			const el = document.createElement(tag);
+			if (className) el.className = className;
+			if (text) el.textContent = text;
+			return el;
+		};
+		const externalize = (a) => {
+			a.target = '_blank';
+			a.rel = 'noopener noreferrer';
+			return a;
+		};
+
+		function chip(text, tone = 'accent') {
+			const span = create('span', `inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-${tone}-50 text-${tone}-700 ring-1 ring-inset ring-${tone}-200`);
+			span.textContent = text;
+			return span;
+		}
+
+		function buttonLink({ icon, label, url, variant = 'primary' }) {
+			const base = 'inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2';
+			const styles = variant === 'primary'
+				? 'bg-accent-600 text-white hover:bg-accent-700 focus-visible:ring-accent-600'
+				: 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 focus-visible:ring-accent-600';
+			const a = create('a', `${base} ${styles}`);
+			a.href = url;
+			a.setAttribute('aria-label', label);
+			a.innerHTML = `${icon ? `<i class="${icon}" aria-hidden="true"></i>` : ''}<span>${label}</span>`;
+			return externalize(a);
+		}
+
+		function progressBar(level, max = 5, name = '') {
+			const pct = Math.round((clamp(level, 0, max) / max) * 100);
+			const wrap = create('div', 'mt-2 h-2.5 w-full bg-gray-100 rounded-full overflow-hidden');
+			wrap.setAttribute('role', 'progressbar');
+			wrap.setAttribute('aria-valuemin', '0');
+			wrap.setAttribute('aria-valuemax', '100');
+			wrap.setAttribute('aria-valuenow', String(pct));
+			if (name) wrap.setAttribute('aria-label', `${name} proficiency ${pct}%`);
+			const bar = create('div', 'h-full bg-blue-500 rounded-full', '');
+			bar.style.width = '0%';
+			bar.style.transition = 'width 900ms ease-out';
+			requestAnimationFrame(() => {
+				requestAnimationFrame(() => { bar.style.width = pct + '%'; });
+			});
+			const sr = create('span', 'sr-only', name ? `${name} - ${pct}%` : `${pct}%`);
+			wrap.appendChild(bar);
+			wrap.appendChild(sr);
+			return wrap;
+		}
+
+		function animateIn(el, base = 'card-enter', active = 'card-enter-active') {
+			el.classList.add(base);
+			requestAnimationFrame(() => {
+				el.classList.add(active);
+				el.addEventListener('transitionend', () => {
+					el.classList.remove(base, active);
+				}, { once: true });
+			});
+		}
+
+		function fadeIn(el) {
+			el.classList.add('fade-enter');
+			requestAnimationFrame(() => {
+				el.classList.add('fade-enter-active');
+				el.addEventListener('transitionend', () => {
+					el.classList.remove('fade-enter', 'fade-enter-active');
+				}, { once: true });
+			});
+		}
+
+		/* ---------- Renderers ---------- */
+		function renderSummary(data) {
+			// Sidebar identity
+			qs('#avatar').src = data.avatar || 'images/me.jpg';
+			qs('#sidebarName').textContent = data.name || '';
+			qs('#sidebarTitle').textContent = data.title || '';
+
+			// Hero
+			qs('#heroName').textContent = data.name || '';
+			qs('#footerName').textContent = data.name || '';
+			qs('#heroTitle').textContent = data.title || '';
+			qs('#summaryAvatar').src = data.avatar || 'images/me.jpg';
+			qs('#summaryRole').textContent = data.title || 'Software Engineer';
+
+			// Quick links (sidebar)
+			const quick = qs('#quickLinks');
+			quick.innerHTML = '';
+			const links = [
+				{ icon: 'fas fa-envelope', label: 'Email', url: data?.contact?.email ? `mailto:${data.contact.email}` : null },
+				{ icon: 'fab fa-github', label: 'GitHub', url: data?.contact?.github },
+				{ icon: 'fab fa-linkedin', label: 'LinkedIn', url: data?.contact?.linkedin },
+				{ icon: 'fas fa-graduation-cap', label: 'Google Scholar', url: data?.contact?.scholar },
+				{ icon: 'fas fa-file-arrow-down', label: 'Resume', url: data?.contact?.resume }
+			].filter(l => !!l.url);
+
+			links.forEach((l) => {
+				const a = buttonLink({ icon: l.icon, label: l.label, url: l.url, variant: 'secondary' });
+				a.classList.add('h-9', 'px-3', 'py-1.5');
+				quick.appendChild(a);
+			});
+
+			// Hero actions (desktop)
+			const heroActions = qs('#heroActions');
+			heroActions.innerHTML = '';
+			if (data?.contact?.resume) {
+				heroActions.appendChild(buttonLink({ icon: 'fas fa-file-arrow-down', label: 'Download Resume', url: data.contact.resume, variant: 'primary' }));
+			}
+			// if (data?.contact?.github) {
+			// 	heroActions.appendChild(buttonLink({ icon: 'fab fa-github', label: 'GitHub', url: data.contact.github, variant: 'secondary' }));
+			// }
+			// if (data?.contact?.linkedin) {
+			// 	heroActions.appendChild(buttonLink({ icon: 'fab fa-linkedin', label: 'LinkedIn', url: data.contact.linkedin, variant: 'secondary' }));
+			// }
+
+			// Footer social links
+			// const footerSocial = qs('#footerSocial');
+			// if (footerSocial) {
+			// 	footerSocial.innerHTML = '';
+			// 	if (data?.contact?.github) {
+			// 		footerSocial.appendChild(buttonLink({ icon: 'fab fa-github', label: 'GitHub', url: data.contact.github, variant: 'secondary' }));
+			// 	}
+			// 	if (data?.contact?.linkedin) {
+			// 		footerSocial.appendChild(buttonLink({ icon: 'fab fa-linkedin', label: 'LinkedIn', url: data.contact.linkedin, variant: 'secondary' }));
+			// 	}
+			// 	if (data?.contact?.scholar) {
+			// 		footerSocial.appendChild(buttonLink({ icon: 'fas fa-graduation-cap', label: 'Google Scholar', url: data.contact.scholar, variant: 'secondary' }));
+			// 	}
+			// }
+
+			// Summary highlights chips
+			const highlights = qs('#summaryHighlights');
+			highlights.innerHTML = '';
+			(data.highlights || []).forEach(h => highlights.appendChild(chip(h)));
+
+			// Summary paragraphs
+			const summaryText = qs('#summaryText');
+			summaryText.innerHTML = '';
+			(data.summary || []).forEach(p => {
+				const para = create('p', 'text-gray-600 leading-relaxed');
+				para.innerHTML = p;
+				summaryText.appendChild(para);
+			});
+
+			// Summary actions
+			const summaryActions = qs('#summaryActions');
+			summaryActions.innerHTML = '';
+			if (data?.contact?.email) {
+				summaryActions.appendChild(buttonLink({ icon: 'fas fa-paper-plane', label: 'Contact Me', url: `mailto:${data.contact.email}`, variant: 'primary' }));
+			}
+		}
+
+		function renderExperience(data) {
+			const wrap = qs('#experienceList');
+			wrap.innerHTML = '';
+
+			(data.experience || []).forEach((job) => {
+				const card = create('article', 'p-5 md:p-6 rounded-xl border border-gray-100 hover:shadow-xl hover:-translate-y-0.5 transition bg-white');
+				const header = create('div', 'flex flex-col md:flex-row md:items-start md:justify-between gap-2');
+
+				const title = create('div', '');
+				const role = create('h3', 'text-base md:text-lg font-semibold text-gray-900');
+				role.textContent = `${job.role || ''}`;
+				if (job.url) {
+					const companyLink = create('a', 'text-blue-500 hover:text-blue-600 font-medium transition-colors');
+					companyLink.href = job.url;
+					companyLink.target = '_blank';
+					companyLink.rel = 'noopener noreferrer';
+					companyLink.textContent = `${job.company || ''}${job.location ? ' · ' + job.location : ''}`;
+					title.appendChild(role);
+					title.appendChild(companyLink);
+				} else {
+					const company = create('p', 'text-gray-600');
+					company.textContent = `${job.company || ''}${job.location ? ' · ' + job.location : ''}`;
+					title.appendChild(role);
+					title.appendChild(company);
+				}
+
+				const meta = create('div', 'text-sm text-gray-500 whitespace-nowrap');
+				const range = `${job.start || ''} — ${job.end || 'Present'}`;
+				meta.textContent = range;
+
+				header.appendChild(title);
+				header.appendChild(meta);
+
+				const sum = create('p', 'mt-3 text-gray-600');
+				sum.textContent = job.summary || '';
+
+				const ul = create('ul', 'mt-3 space-y-2');
+				(job.achievements || []).forEach(a => {
+					const li = create('li', 'flex items-start gap-2');
+					li.innerHTML = `<i class="fas fa-check text-accent-600 mt-1"></i><span class="text-gray-600">${a}</span>`;
+					ul.appendChild(li);
+				});
+
+				const tags = create('div', 'mt-3 flex flex-wrap gap-2');
+				(job.stack || []).forEach(s => tags.appendChild(chip(s)));
+
+				card.appendChild(header);
+				if (job.summary) card.appendChild(sum);
+				if ((job.achievements || []).length) card.appendChild(ul);
+				if ((job.stack || []).length) card.appendChild(tags);
+
+				wrap.appendChild(card);
+				animateIn(card);
+			});
+		}
+
+		function renderProjects(data) {
+			const grid = qs('#projectsGrid');
+			grid.innerHTML = '';
+
+			(data.projects || []).forEach((p) => {
+				const card = create('article', 'group relative rounded-xl border border-gray-100 bg-white p-5 md:p-6 hover:shadow-xl hover:-translate-y-0.5 transition');
+				const title = create('h3', 'text-base md:text-lg font-semibold text-gray-900');
+				title.textContent = p.name || '';
+
+				const desc = create('p', 'mt-2 text-gray-600');
+				desc.textContent = p.description || '';
+
+				const chips = create('div', 'mt-3 flex flex-wrap gap-2');
+				(p.tags || p.highlights || []).forEach(t => chips.appendChild(chip(t)));
+
+				const links = create('div', 'mt-4 flex flex-wrap gap-2');
+				(p.links || []).forEach(l => {
+					const a = buttonLink({ icon: l.icon || 'fas fa-link', label: l.label || 'Link', url: l.url || '#', variant: 'secondary' });
+					links.appendChild(a);
+				});
+
+				card.appendChild(title);
+				if (p.description) card.appendChild(desc);
+				if ((p.tags || p.highlights || []).length) card.appendChild(chips);
+				if ((p.links || []).length) card.appendChild(links);
+
+				grid.appendChild(card);
+				animateIn(card);
+			});
+		}
+
+		function renderSkills(data) {
+			const grid = qs('#skillsGrid');
+			grid.innerHTML = '';
+
+			(data.skills || []).forEach((cat) => {
+				const card = create('section', 'rounded-xl border border-gray-100 bg-white p-5 md:p-6 hover:shadow-xl hover:-translate-y-0.5 transition');
+				const title = create('h3', 'text-base md:text-lg font-semibold text-gray-900');
+				title.textContent = cat.category || 'Skills';
+				card.appendChild(title);
+
+				const list = create('div', 'mt-3 space-y-3');
+				(cat.items || []).forEach((s) => {
+					const row = create('div', '');
+					const label = create('div', 'flex items-center justify-between text-sm');
+					const name = create('span', 'font-medium text-gray-700', s.name);
+					const lvl = create('span', 'text-gray-500');
+					lvl.textContent = `Level ${s.level || 0}/5`;
+					label.appendChild(name);
+					label.appendChild(lvl);
+					row.appendChild(label);
+					row.appendChild(progressBar(s.level || 0, 5, s.name));
+					list.appendChild(row);
+				});
+
+				card.appendChild(list);
+				grid.appendChild(card);
+				animateIn(card);
+			});
+		}
+
+		function renderEducation(data) {
+			const wrap = qs('#educationList');
+			wrap.innerHTML = '';
+
+			(data.education || []).forEach((ed) => {
+				const card = create('article', 'rounded-xl border border-gray-100 bg-white p-5 md:p-6 hover:shadow-xl hover:-translate-y-0.5 transition');
+				const title = create('h3', 'text-base md:text-lg font-semibold text-gray-900');
+				title.textContent = `${ed.degree || ''}`;
+
+				if (ed.url) {
+					const institutionLink = create('a', 'text-blue-500 hover:text-blue-600 font-medium transition-colors mt-1 block');
+					institutionLink.href = ed.url;
+					institutionLink.target = '_blank';
+					institutionLink.rel = 'noopener noreferrer';
+					institutionLink.textContent = `${ed.institution || ''}${ed.location ? ' · ' + ed.location : ''}`;
+					const org = create('p', 'text-gray-600 mt-1');
+					org.appendChild(institutionLink);
+					const meta = create('p', 'text-sm text-gray-500 mt-1');
+					meta.textContent = `${ed.start || ''} — ${ed.end || ''}`;
+					card.appendChild(title);
+					card.appendChild(org);
+					card.appendChild(meta);
+				} else {
+					const org = create('p', 'text-gray-600 mt-1');
+					org.textContent = `${ed.institution || ''}${ed.location ? ' · ' + ed.location : ''}`;
+					const meta = create('p', 'text-sm text-gray-500 mt-1');
+					meta.textContent = `${ed.start || ''} — ${ed.end || ''}`;
+					card.appendChild(title);
+					card.appendChild(org);
+					card.appendChild(meta);
+				}
+
+				if ((ed.details || []).length) {
+					const ul = create('ul', 'mt-3 space-y-2');
+					ed.details.forEach(d => {
+						const li = create('li', 'flex items-start gap-2');
+						li.innerHTML = `<i class="fas fa-circle text-[6px] leading-5 mt-2 text-gray-400"></i><span class="text-gray-600">${d}</span>`;
+						ul.appendChild(li);
+					});
+					card.appendChild(ul);
+				}
+
+				wrap.appendChild(card);
+				animateIn(card);
+			});
+		}
+
+		function renderPublications(data) {
+			const wrap = qs('#publicationsList');
+			wrap.innerHTML = '';
+
+			(data.publications || []).forEach((pub) => {
+				const row = create('div', 'p-4 rounded-xl border border-gray-100 bg-white hover:shadow-xl hover:-translate-y-0.5 transition');
+				const title = create('h3', 'font-semibold text-gray-900');
+				title.textContent = pub.title || '';
+
+				const meta = create('p', 'text-sm text-gray-500 mt-1');
+				meta.textContent = `${pub.venue || ''}${pub.year ? ' · ' + pub.year : ''}`;
+
+				const authors = create('p', 'text-sm text-gray-600 mt-1');
+				authors.textContent = (pub.authors || []).join(', ');
+
+				row.appendChild(title);
+				row.appendChild(meta);
+				if ((pub.authors || []).length) row.appendChild(authors);
+
+				if (pub.url) {
+					const link = buttonLink({ icon: 'fas fa-link', label: 'View', url: pub.url, variant: 'secondary' });
+					link.classList.add('mt-3');
+					row.appendChild(link);
+				}
+
+				if (pub.link) {
+					const link = buttonLink({ icon: 'fa-solid fa-link', label: 'View Publication', url: pub.link, variant: 'secondary' });
+					link.classList.add('mt-3');
+					row.appendChild(link);
+				}
+
+				wrap.appendChild(row);
+				animateIn(row);
+			});
+		}
+
+		function renderPhotography() {
+			const grid = qs('#photographyGrid');
+			if (!grid) return;
+			grid.innerHTML = '';
+
+			const photos = [
+				{ src: 'images/cool1.jpg', alt: 'lake', caption: 'Serene lake in Pakistan.', position: 'center' },
+				{ src: 'images/cool2.jpg', alt: 'germany', caption: 'Beautiful German landscape near Munich', position: 'center' },
+				{ src: 'images/cool3.jpg', alt: 'water', caption: 'padestrian bridge in a mountain valley in Pakistan', position: 'center' },
+				{ src: 'images/cool4.JPG', alt: 'ship', caption: 'A sailing boat', position: 'bottom' },
+				{ src: 'images/cool5.JPG', alt: 'sunset', caption: 'Stunning sunset scene', position: 'center' },
+				{ src: 'images/cool6.JPG', alt: 'church', caption: 'A church in the middle of the city', position: 'center' },
+				{ src: 'images/lucca.JPG', alt: 'lucca', caption: 'A street in Lucca, Italy', position: 'center' },
+				{ src: 'images/frank.JPG', alt: 'frankfurt', caption: 'In the middle of the Frankfurt', position: 'center' },
+				{ src: 'images/beach.JPG', alt: 'beach', caption: 'One of the beaches in Cinque Terre', position: 'center' },
+				// { src: 'images/beach 2.JPG', alt: 'beach2', caption: 'Another beach in Cinque Terre', position: 'bottom' },
+			];
+
+			photos.forEach((photo) => {
+				const card = create('div', 'group relative overflow-hidden rounded-xl bg-gray-100 hover:shadow-xl transition-all duration-300');
+				const img = create('img', 'w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300');
+				img.src = photo.src;
+				img.alt = photo.alt;
+				img.loading = 'lazy';
+				img.style.objectPosition = photo.position;
+
+				const overlay = create('div', 'absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-end');
+				const caption = create('p', 'text-white text-sm font-medium p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300');
+				caption.textContent = photo.caption;
+
+				overlay.appendChild(caption);
+				card.appendChild(img);
+				card.appendChild(overlay);
+
+				grid.appendChild(card);
+				animateIn(card);
+			});
+		}
+
+		/* ---------- Tabs & Navigation ---------- */
+		const NAV_ITEMS = [
+			{ id: 'summary', label: 'Summary', icon: 'fas fa-user' },
+			{ id: 'experience', label: 'Work Experience', icon: 'fas fa-briefcase' },
+			{ id: 'publications', label: 'Publications', icon: 'fas fa-book-open' },
+			{ id: 'education', label: 'Education', icon: 'fas fa-graduation-cap' },
+			{ id: 'projects', label: 'Projects', icon: 'fas fa-code' },
+			{ id: 'skills', label: 'Skills', icon: 'fas fa-magic' },
+			{ id: 'photography', label: 'Photography', icon: 'fas fa-camera' }
+		];
+		const TABS = NAV_ITEMS.map(i => i.id);
+
+		function renderSidebarNav() {
+			const nav = qs('#sidebarNav');
+			if (!nav) return;
+			nav.innerHTML = '';
+			NAV_ITEMS.forEach((item) => {
+				const a = create('a', 'tab-link group flex items-center gap-3 px-3 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500');
+				a.href = `#${item.id}`;
+				a.setAttribute('data-tab', item.id);
+				const iconWrap = create('div', 'h-8 w-8 grid place-items-center rounded-lg bg-accent-50 text-accent-700 group-hover:bg-accent-100 transition');
+				iconWrap.innerHTML = `<i class="${item.icon}" aria-hidden="true"></i>`;
+				const labelEl = create('span', 'font-medium', item.label);
+				a.appendChild(iconWrap);
+				a.appendChild(labelEl);
+				nav.appendChild(a);
+			});
+		}
+
+		function setActiveTab(tabName, opts = { pushHash: true }) {
+			if (!TABS.includes(tabName)) tabName = 'summary';
+
+			// Panels
+			TABS.forEach(t => {
+				const panel = qs(`#panel-${t}`);
+				if (!panel) return;
+				if (t === tabName) {
+					panel.classList.remove('hidden');
+					fadeIn(panel);
+				} else {
+					panel.classList.add('hidden');
+				}
+			});
+
+			// Sidebar links
+			qsa('.tab-link').forEach(a => {
+				const isActive = a.getAttribute('data-tab') === tabName;
+				a.classList.toggle('bg-gray-50', isActive);
+				a.classList.toggle('text-gray-900', isActive);
+				a.setAttribute('aria-current', isActive ? 'page' : 'false');
+			});
+
+			// Persist & URL
+			localStorage.setItem('activeTab', tabName);
+			if (opts.pushHash) {
+				history.replaceState(null, '', `#${tabName}`);
+			}
+
+			// Close mobile sidebar after navigation
+			closeSidebar();
+		}
+
+		function openSidebar() {
+			const aside = qs('#sidebar');
+			const overlay = qs('#overlay');
+			aside.classList.remove('-translate-x-full');
+			overlay.classList.remove('pointer-events-none');
+			requestAnimationFrame(() => {
+				overlay.style.opacity = '1';
+			});
+			qs('#openSidebar')?.setAttribute('aria-expanded', 'true');
+		}
+
+		function closeSidebar() {
+			const aside = qs('#sidebar');
+			const overlay = qs('#overlay');
+			if (!overlay) return;
+			aside.classList.add('-translate-x-full');
+			overlay.style.opacity = '0';
+			setTimeout(() => overlay.classList.add('pointer-events-none'), 300);
+			qs('#openSidebar')?.setAttribute('aria-expanded', 'false');
+		}
+
+		function bindNavigation() {
+			// Tab clicks
+			qsa('.tab-link').forEach(a => {
+				a.addEventListener('click', (e) => {
+					e.preventDefault();
+					const tab = a.getAttribute('data-tab');
+					setActiveTab(tab);
+				});
+			});
+
+			// Mobile sidebar toggles
+			qs('#openSidebar')?.addEventListener('click', openSidebar);
+			qs('#closeSidebar')?.addEventListener('click', closeSidebar);
+			qs('#overlay')?.addEventListener('click', closeSidebar);
+			window.addEventListener('keydown', (e) => {
+				if (e.key === 'Escape') closeSidebar();
+			});
+
+			// Hash routing
+			window.addEventListener('hashchange', () => {
+				const hash = (location.hash || '').replace('#', '');
+				if (TABS.includes(hash)) setActiveTab(hash, { pushHash: false });
+			});
+		}
+
+		/* ---------- Initialization ---------- */
+		function renderAll(resume) {
+			renderSummary(resume);
+			renderExperience(resume);
+			renderProjects(resume);
+			renderSkills(resume);
+			renderEducation(resume);
+			renderPublications(resume);
+			renderPhotography();
+			qs('#year').textContent = new Date().getFullYear();
+			qs('#summaryAvatar').addEventListener('load', (e) => animateIn(e.target));
+		}
+
+		function initialize() {
+			try {
+				const data = jsyaml.load(RESUME_YAML) || {};
+				renderAll(data);
+				renderSidebarNav();
+				bindNavigation();
+
+				// Initial tab: always start on Summary
+				setActiveTab('summary', { pushHash: false });
+			} catch (err) {
+				console.error('Failed to parse YAML:', err);
+				alert('Failed to load resume data. Please check the console for details.');
+			}
+		}
+
+		window.onload = initialize;
+	</script>
 </body>
 </html>
